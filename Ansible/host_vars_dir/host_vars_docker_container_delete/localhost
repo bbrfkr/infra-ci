@@ -1,0 +1,7 @@
+---
+docker_container_containers:
+  - name: default
+    image: "docker.io/centos:7"
+    command: /bin/bash
+    state: absent
+

@@ -1,10 +1,7 @@
 #!/bin/sh
 export PATH=${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:
-pwd
-ls ..
-ls
 
-cd ../Ansible
+cd Ansible
 ansible-art -V
 ROLES_DIR=`pwd`/roles
 sed -i -e "s|roles_path\s*=\s*.\+|roles_path = ${ROLES_DIR}|g" ~/.ansible-art.cfg

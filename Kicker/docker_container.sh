@@ -1,4 +1,8 @@
 #!/bin/sh
+export PATH=${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:
+pwd
+ls ..
+ls
 
 cd ../Ansible
 ansible-art -V

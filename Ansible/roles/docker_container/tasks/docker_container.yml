@@ -15,7 +15,6 @@
   with_items:
     "{{ docker_container_containers }}"
 
----
 - name: delete container
   docker_container:
     name: "{{ item.name }}"

@@ -9,6 +9,9 @@ ansible-art apply docker_container inventories/hosts_docker_container -p host_va
 
 cd ../Serverspec
 rake -f Rakefiles/docker_container spec
+RC=$?
 
 cd ../Ansible
 ansible-art apply docker_container inventories/hosts_docker_container -p host_vars_dir/host_vars_docker_container_delete -a "-s"
+
+exit $RC

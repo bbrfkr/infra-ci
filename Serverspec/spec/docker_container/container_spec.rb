@@ -1,5 +1,5 @@
 require 'docker_container/spec_helper.rb'
 
-describe file("/root") do
+describe file("/saito") do
   it { should exist }
 end

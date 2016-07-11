@@ -1,2 +1,5 @@
-- docker_container: default
+- docker_container: default01
+  docker_host: tcp://localhost:2375 
+
+- docker_container: default02
   docker_host: tcp://localhost:2375 

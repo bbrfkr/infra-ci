@@ -1,5 +1,5 @@
 ---
-- name: create container
+- name: create {{ item.state if item.state == "present" else "started" }} container
   docker_container:
     name: "{{ item.name }}"
     image: "{{ item.image }}"
@@ -11,14 +11,4 @@
     tty: "{{ item.tty | default(\"no\") }}"
     interactive: "{{ item.interactive | default(\"no\") }}"
     detach: "{{ item.detach | default(\"no\")}}"
-  when: item.state != "absent"
-  with_items:
-    "{{ docker_container_containers }}"
-
-- name: delete container
-  docker_container:
-    name: "{{ item.name }}"
-    state: "{{ item.state }}"
-  when: item.state == "absent"
-  with_items:
-    "{{ docker_container_containers }}"
+  when: item.state == "started" or item.state == "present"

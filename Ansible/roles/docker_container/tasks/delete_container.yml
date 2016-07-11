@@ -1,0 +1,22 @@
+---
+- block:
+
+  - name: check processes of container
+    shell: docker exec {{ item.name }} ps -N -p 1 -C ps
+    changed_when: false
+    failed_when: false
+    register: ret_check
+    become: true
+    become_user: root
+    
+  - name: fail
+    fail: 
+      msg: process whose pid is not 1 exists in container {{ item.name }} !
+    when: ret_check.rc == 0
+
+  - name: "{{ item.state if item.state == \"absent\" else \"stop\" }} container"
+    docker_container:
+      name: "{{ item.name }}"
+      state: "{{ item.state }}"
+
+  when: item.state in [ "stopped", "absent" ]

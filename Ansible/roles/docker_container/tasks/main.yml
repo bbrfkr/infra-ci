@@ -1,3 +1,7 @@
 ---
-- include: docker_container.yml
-
+- include: create_container.yml
+  with_items:
+    "{{ docker_container_containers }}"
+- include: delete_container.yml
+  with_items:
+    "{{ docker_container_containers }}"

@@ -11,4 +11,5 @@
     tty: "{{ item.tty | default(\"no\") }}"
     interactive: "{{ item.interactive | default(\"no\") }}"
     detach: "{{ item.detach | default(\"no\")}}"
+    docker_host: "{{ lookup('env', 'DOCKER_HOST') }}"
   when: item.state == "started" or item.state == "present"

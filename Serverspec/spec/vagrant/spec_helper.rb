@@ -4,7 +4,7 @@ require 'yaml'
 
 set :backend, :ssh
 
-properties = YAML.load_file('properties/virtualbox.yml')
+properties = YAML.load_file('properties/vagrant.yml')
 host = ENV['CONN_HOST']
 set_property properties[host]
 

@@ -1,0 +1,9 @@
+---
+- name: change root password
+  user:
+    name: root
+    password: "{{ vagrant_root_password | password_hash('sha512') }}"
+  become: yes
+  become_user: root
+
+

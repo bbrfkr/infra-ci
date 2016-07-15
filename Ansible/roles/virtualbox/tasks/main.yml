@@ -1,0 +1,59 @@
+---
+- name: add repository
+  get_url:
+    url: http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo
+    dest: /etc/yum.repos.d/virtualbox.repo
+
+- name: check repository key
+  shell: rpm -qa | grep gpg-pubkey-98ab5139-4bf2d0b0
+  changed_when: false
+  failed_when: false
+  register: ret_check_repository
+
+- name: activate repository key
+  shell: yum list -y kernel
+  when: ret_check_repository.rc != 0
+
+- name: enable epel-release
+  yum:
+    name: epel-release
+    state: installed
+
+- name: install packages
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - dkms
+    - "@Development Tools"
+    - VirtualBox-{{ virtualbox_version }}
+
+- name: add user to vboxusers group
+  user:
+    name: "{{ item }}"
+    groups: vboxusers
+  with_items:
+    "{{ virtualbox_install_users }}"
+
+- name: check kernel version
+  shell: uname -r
+  changed_when: false
+  failed_when: false
+  register: ret_check_kernel
+
+- name: install kernel-devel
+  yum:
+    name: kernel-devel-{{ ret_check_kernel.stdout }}
+    state: installed
+
+- name: check that kernel module vboxdrv is loaded
+  shell: |
+    VBoxManage --version | grep "WARNING: The vboxdrv kernel module is not loaded."
+  changed_when: false
+  failed_when: false
+  register: ret_check_module
+
+- name: load kernel module vboxdrv
+  shell: /sbin/rcvboxdrv setup
+  when: ret_check_module.rc == 0
+

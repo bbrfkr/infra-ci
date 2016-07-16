@@ -1,0 +1,43 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: create work dir
+      file:
+        path: "{{ sign_cert.work_dir }}"
+        state: directory
+
+    - block:
+        - name: send csrs
+          copy:
+            src: files/{{ item.csr.filename }}
+            dest: "{{ sign_cert.work_dir }}"
+          with_items:
+            "{{ sign_cert.certs }}"
+
+        - debug: var=sign_cert.ca_cert.private_key.passphrase
+
+        - name: sign certs
+          shell: openssl ca -batch -days {{ item.validity_term }} -in {{ sign_cert.work_dir }}/{{ item.csr.filename }} -out {{ sign_cert.work_dir }}/{{ item.filename }} -keyfile /etc/pki/CA/private/cakey.pem -passin pass:{{ sign_cert.ca_cert.private_key.passphrase }}
+          with_items:
+            "{{ sign_cert.certs }}"
+
+        - name: fetch certs
+          fetch:
+            src: "{{ sign_cert.work_dir }}/{{ item.filename }}"
+            dest: "{{ sign_cert.fetch_dir }}/{{ item.filename }}"
+            flat: yes
+          with_items:
+            "{{ sign_cert.certs }}"
+
+      rescue:
+        - name: fail
+          debug:
+           msg: "ERROR: failed to sign cert"
+            
+      always:
+        - name: delete work dir
+          file:
+            path: "{{ sign_cert.work_dir }}"
+            state: absent
+

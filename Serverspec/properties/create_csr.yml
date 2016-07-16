@@ -10,7 +10,6 @@ localhost:
           organization: test
           unit_name: test
           common_name: test
-        validity_term: 1095
         private_key:
           filename: test.key
           passphrase: password

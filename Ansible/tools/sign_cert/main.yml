@@ -15,8 +15,6 @@
           with_items:
             "{{ sign_cert.certs }}"
 
-        - debug: var=sign_cert.ca_cert.private_key.passphrase
-
         - name: sign certs
           shell: openssl ca -batch -days {{ item.validity_term }} -in {{ sign_cert.work_dir }}/{{ item.csr.filename }} -out {{ sign_cert.work_dir }}/{{ item.filename }} -keyfile /etc/pki/CA/private/cakey.pem -passin pass:{{ sign_cert.ca_cert.private_key.passphrase }}
           with_items:

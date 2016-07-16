@@ -1,0 +1,17 @@
+localhost:
+  private_ca:
+    ca_cert:
+      distinguished_name:
+        country: JP
+        state: test
+        locality_name: test
+        organization: test
+        unit_name: test
+        common_name: test
+      validity_term: 1095
+      private_key:
+        passphrase: password
+
+      
+      
+

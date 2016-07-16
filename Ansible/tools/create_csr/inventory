@@ -1,0 +1,2 @@
+localhost ansible_user=root ansible_password=password ansible_port=2222
+

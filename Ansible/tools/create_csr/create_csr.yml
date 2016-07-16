@@ -1,0 +1,32 @@
+- block:
+    - name: setting openssl config file
+      template:
+        src: ./templates/openssl.cnf.j2
+        dest: /etc/pki/tls/openssl.cnf
+
+    - debug: var=item.private_key.passphrase
+
+    - name: create csr
+      shell: openssl req -new -batch -keyout {{ create_csr.work_dir }}/{{ item.private_key.filename }} -out {{ create_csr.work_dir }}/{{ item.filename }} -passout pass:{{ item.private_key.passphrase }}
+    - name: fetch csr and key
+      fetch:
+        src: "{{ create_csr.work_dir }}/{{ item }}"
+        dest: "{{ create_csr.fetch_dir }}/{{ item }}"
+        flat: yes
+      with_items:
+        - "{{ item.private_key.filename }}"
+        - "{{ item.filename }}"
+
+  rescue:
+    - name: delete work dir
+      file:
+        path: "{{ create_csr.work_dir }}"
+        state: absent
+
+    - name: restore openssl config file
+      shell: mv -f /etc/pki/tls/openssl.cnf.bk /etc/pki/tls/openssl.cnf
+
+    - name: fail
+      fail:
+        msg: "ERROR: failed creating csrs"
+

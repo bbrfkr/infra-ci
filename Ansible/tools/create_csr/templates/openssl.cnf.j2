@@ -232,7 +232,7 @@ extendedKeyUsage = clientAuth
 extendedKeyUsage = serverAuth
 {% endif %}
 
-{% if csr.type == "server" and csr.distinguished_name.san is defined %}
+{% if csr.distinguished_name.san is defined %}
 subjectAltName = @alt_names
 
 [ alt_names ]

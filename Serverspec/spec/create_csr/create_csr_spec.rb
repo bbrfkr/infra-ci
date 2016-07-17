@@ -31,7 +31,7 @@ describe ("create_csr") do
       end
     end
 
-    if csr['type'] == "server" && defined? csr['distinguished_name']['san']
+    if defined? csr['distinguished_name']['san']
       describe ("check san") do
         csr['distinguished_name']['san'].each do |san|
           describe command("openssl req -in #{dir}/#{csr['filename']} -noout -text | grep \"DNS:#{san['alias']}\"") do

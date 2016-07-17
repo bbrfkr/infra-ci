@@ -12,8 +12,10 @@ create_csr:
         unit_name: test
         common_name: test
         san:
-          - alias: localhost
-          - alias: 127.0.0.1
+          dns:
+            - alias: localhost
+          ip:
+            - alias: 127.0.0.1
       private_key:
         filename: test.key
         passphrase: password

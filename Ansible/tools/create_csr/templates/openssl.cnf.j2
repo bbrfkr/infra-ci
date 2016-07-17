@@ -237,8 +237,13 @@ subjectAltName = @alt_names
 
 [ alt_names ]
 {% set i = 1 %}
-{% for san in csr.distinguished_name.san %}
-DNS.{{ i }} = {{ san.alias }}
+{% for dns in csr.distinguished_name.san.dns %}
+DNS.{{ i }} = {{ dns.alias }}
+{% set i = i + 1 %}
+{% endfor %}
+{% set i = 1 %}
+{% for ip in csr.distinguished_name.san.ip %}
+IP.{{ i }} = {{ ip.alias }}
 {% set i = i + 1 %}
 {% endfor %}
 

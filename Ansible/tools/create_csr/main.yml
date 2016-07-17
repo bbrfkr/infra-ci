@@ -13,6 +13,8 @@
     - include: create_csr.yml
       with_items:
         "{{ create_csr.csrs }}"
+      loop_control:
+        loop_var: csr
 
     - name: restore openssl config file
       shell: mv -f /etc/pki/tls/openssl.cnf.bk /etc/pki/tls/openssl.cnf

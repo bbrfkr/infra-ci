@@ -2,7 +2,8 @@ create_csr:
   work_dir: /etc/pki/server
   fetch_dir: /tmp/csr
   csrs:
-    - filename: test.csr
+    - type: server # サーバ証明書: server, クライアント証明書: client
+      filename: test.csr
       distinguished_name:
         country: JP
         state: test
@@ -10,6 +11,9 @@ create_csr:
         organization: test
         unit_name: test
         common_name: test
+        san:
+          - alias: localhost
+          - alias: 127.0.0.1
       private_key:
         filename: test.key
         passphrase: password

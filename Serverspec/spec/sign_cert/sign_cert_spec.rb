@@ -12,6 +12,29 @@ certs.each do |cert|
       end
     end
 
+    describe ("check cert type") do
+      if cert['type'] == "server"
+        describe command("openssl x509 -in #{dir}/#{cert['filename']} -noout -text | grep \"TLS Web Server Authentication\"") do
+          its(:exit_status) { should eq 0 }
+        end
+      end
+      if cert['type'] == "client"
+        describe command("openssl x509 -in #{dir}/#{cert['filename']} -noout -text | grep \"TLS Web Client Authentication\"") do
+          its(:exit_status) { should eq 0 }
+        end
+      end
+    end
+
+    if cert['type'] == "server" && defined? cert['distinguished_name']['san']
+      describe ("check san") do
+        cert['distinguished_name']['san'].each do |san|
+          describe command("openssl x509 -in #{dir}/#{cert['filename']} -noout -text | grep \"DNS:#{san['alias']}\"") do
+            its(:exit_status) { should eq 0 }
+          end
+        end
+      end
+    end
+
     describe ("check validity term of CA cert") do
       startdate = Specinfra::backend.run_command("date -d \"`openssl x509 -in #{dir}/#{cert['filename']} -noout -startdate | cut -c 11-30`\" +%s")[:stdout]
       enddate = Specinfra::backend.run_command("date -d \"`openssl x509 -in #{dir}/#{cert['filename']} -noout -enddate | cut -c 10-29`\" +%s")[:stdout]

@@ -2,7 +2,8 @@ localhost:
   sign_cert:
     certs_dir: /tmp/cert
     certs:
-      - filename: test.pem
+      - type: server # サーバ証明書: server, クライアント証明書: client
+        filename: test.pem
         distinguished_name:
           country: JP
           state: test
@@ -10,5 +11,8 @@ localhost:
           organization: test
           unit_name: test
           common_name: test
+          san:
+            - alias: localhost
+            - alias: 127.0.0.1
         validity_term: 1095
 

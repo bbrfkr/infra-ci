@@ -1,0 +1,16 @@
+create_csr:
+  work_dir: /etc/pki/server
+  fetch_dir: /tmp/csr
+  csrs:
+    - filename: test.csr
+      distinguished_name:
+        country: JP
+        state: test
+        locality_name: test
+        organization: test
+        unit_name: test
+        common_name: test
+      private_key:
+        filename: test.key
+        passphrase: password
+

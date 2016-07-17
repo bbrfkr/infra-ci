@@ -27,8 +27,13 @@ certs.each do |cert|
 
     if defined? cert['distinguished_name']['san']
       describe ("check san") do
-        cert['distinguished_name']['san'].each do |san|
-          describe command("openssl x509 -in #{dir}/#{cert['filename']} -noout -text | grep \"DNS:#{san['alias']}\"") do
+        cert['distinguished_name']['san']['dns'].each do |dns|
+          describe command("openssl x509 -in #{dir}/#{cert['filename']} -noout -text | grep \"DNS:#{dns['alias']}\"") do
+            its(:exit_status) { should eq 0 }
+          end
+        end
+        cert['distinguished_name']['san']['ip'].each do |ip|
+          describe command("openssl x509 -in #{dir}/#{cert['filename']} -noout -text | grep \"IP Address:#{ip['alias']}\"") do
             its(:exit_status) { should eq 0 }
           end
         end

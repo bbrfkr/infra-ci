@@ -7,19 +7,19 @@ certs.each do |cert|
   describe ("sign_cert") do
     describe ("check DN of cert") do
       dn = cert['distinguished_name']
-      describe command("openssl req -in #{dir}/#{cert['filename']} -noout -subject") do
+      describe command("openssl x509 -in #{dir}/#{cert['filename']} -noout -subject") do
         its(:stdout) { should eq "subject=/C=#{dn['country']}/ST=#{dn['state']}/L=#{dn['locality_name']}/O=#{dn['organization']}/OU=#{dn['unit_name']}/CN=#{dn['common_name']}\n" }
       end
     end
 
     describe ("check cert type") do
       if cert['type'] == "server"
-        describe command("openssl req -in #{dir}/#{cert['filename']} -noout -text | grep \"TLS Web Server Authentication\"") do
+        describe command("openssl x509 -in #{dir}/#{cert['filename']} -noout -text | grep \"TLS Web Server Authentication\"") do
           its(:exit_status) { should eq 0 }
         end
       end
       if cert['type'] == "client"
-        describe command("openssl req -in #{dir}/#{cert['filename']} -noout -text | grep \"TLS Web Client Authentication\"") do
+        describe command("openssl x509 -in #{dir}/#{cert['filename']} -noout -text | grep \"TLS Web Client Authentication\"") do
           its(:exit_status) { should eq 0 }
         end
       end
@@ -28,7 +28,7 @@ certs.each do |cert|
     if cert['type'] == "server" && defined? cert['distinguished_name']['san']
       describe ("check san") do
         cert['distinguished_name']['san'].each do |san|
-          describe command("openssl req -in #{dir}/#{cert['filename']} -noout -text | grep \"DNS:#{san['alias']}\"") do
+          describe command("openssl x509 -in #{dir}/#{cert['filename']} -noout -text | grep \"DNS:#{san['alias']}\"") do
             its(:exit_status) { should eq 0 }
           end
         end

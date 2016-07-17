@@ -12,7 +12,9 @@ localhost:
           unit_name: test
           common_name: test
           san:
-            - alias: localhost
-            - alias: 127.0.0.1
+            dns:
+              - alias: localhost
+            ip:
+              - alias: 127.0.0.1
         validity_term: 1095
 

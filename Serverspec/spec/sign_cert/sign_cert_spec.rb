@@ -8,7 +8,7 @@ certs.each do |cert|
     describe ("check DN of cert") do
       dn = cert['distinguished_name']
       describe command("openssl x509 -in #{dir}/#{cert['filename']} -noout -subject") do
-        its(:stdout) { should eq "subject=/C=#{dn['country']}/ST=#{dn['state']}/L=#{dn['locality_name']}/O=#{dn['organization']}/OU=#{dn['unit_name']}/CN=#{dn['common_name']}\n" }
+        its(:stdout) { should eq "subject= /C=#{dn['country']}/ST=#{dn['state']}/L=#{dn['locality_name']}/O=#{dn['organization']}/OU=#{dn['unit_name']}/CN=#{dn['common_name']}\n" }
       end
     end
 

@@ -5,15 +5,16 @@
         dest: /etc/pki/tls/openssl.cnf
 
     - name: create csr
-      shell: openssl req -new -batch -keyout {{ create_csr.work_dir }}/{{ item.private_key.filename }} -out {{ create_csr.work_dir }}/{{ item.filename }} -passout pass:{{ item.private_key.passphrase }}
+      shell: openssl req -new -batch -keyout {{ create_csr.work_dir }}/{{ csr.private_key.filename }} -out {{ create_csr.work_dir }}/{{ csr.filename }} -passout pass:{{ csr.private_key.passphrase }}
+
     - name: fetch csr and key
       fetch:
         src: "{{ create_csr.work_dir }}/{{ item }}"
         dest: "{{ create_csr.fetch_dir }}/{{ item }}"
         flat: yes
       with_items:
-        - "{{ item.private_key.filename }}"
-        - "{{ item.filename }}"
+        - "{{ csr.private_key.filename }}"
+        - "{{ csr.filename }}"
 
   rescue:
     - name: delete work dir

@@ -124,32 +124,32 @@ x509_extensions	= v3_ca	# The extentions to add to the self signed cert
 # WARNING: ancient versions of Netscape crash on BMPStrings or UTF8Strings.
 string_mask = utf8only
 
-#req_extensions = v3_req # The extensions to add to a certificate request
+req_extensions = v3_req # The extensions to add to a certificate request
 
 [ req_distinguished_name ]
 countryName			= Country Name (2 letter code)
-countryName_default		= {{ item.distinguished_name.country }}
+countryName_default		= {{ csr.distinguished_name.country }}
 countryName_min			= 2
 countryName_max			= 2
 
 stateOrProvinceName		= State or Province Name (full name)
-stateOrProvinceName_default	= {{ item.distinguished_name.state }}
+stateOrProvinceName_default	= {{ csr.distinguished_name.state }}
 
 localityName			= Locality Name (eg, city)
-localityName_default		= {{ item.distinguished_name.locality_name }}
+localityName_default		= {{ csr.distinguished_name.locality_name }}
 
 0.organizationName		= Organization Name (eg, company)
-0.organizationName_default	= {{ item.distinguished_name.organization }}
+0.organizationName_default	= {{ csr.distinguished_name.organization }}
 
 # we can do this but it is not needed normally :-)
 #1.organizationName		= Second Organization Name (eg, company)
 #1.organizationName_default	= World Wide Web Pty Ltd
 
 organizationalUnitName		= Organizational Unit Name (eg, section)
-organizationalUnitName_default	= {{ item.distinguished_name.unit_name }}
+organizationalUnitName_default	= {{ csr.distinguished_name.unit_name }}
 
 commonName			= Common Name (eg, your name or your server\'s hostname)
-commonName_default		= {{ item.distinguished_name.common_name }}
+commonName_default		= {{ csr.distinguished_name.common_name }}
 commonName_max			= 64
 
 emailAddress			= Email Address
@@ -217,9 +217,6 @@ authorityKeyIdentifier=keyid,issuer
 
 # This is required for TSA certificates.
 # extendedKeyUsage = critical,timeStamping
-{% if item.type == client %}
-extendedKeyUsage = clientAuth
-{% endif %}
 
 [ v3_req ]
 
@@ -228,15 +225,21 @@ extendedKeyUsage = clientAuth
 basicConstraints = CA:FALSE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 
-{% if item.type == server and item.san is defined %}
+{% if csr.type == "client" %}
+extendedKeyUsage = clientAuth
+{% endif %}
+{% if csr.type == "server" %}
+extendedKeyUsage = serverAuth
+{% endif %}
+
+{% if csr.type == "server" and csr.distinguished_name.san is defined %}
 subjectAltName = @alt_names
 
 [ alt_names ]
-{% i = 1 %}
-{% for alias in item.san %}
-DNS.{{ i }} = {{ alias }}
-DNS.2 = www.bbrfkr.mydns.jp
-{% i = i + 1 %}
+{% set i = 1 %}
+{% for san in csr.distinguished_name.san %}
+DNS.{{ i }} = {{ san.alias }}
+{% set i = i + 1 %}
 {% endfor %}
 
 {% endif %}

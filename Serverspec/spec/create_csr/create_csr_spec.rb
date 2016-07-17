@@ -32,9 +32,14 @@ describe ("create_csr") do
     end
 
     if defined? csr['distinguished_name']['san']
-      describe ("check san") do
-        csr['distinguished_name']['san'].each do |san|
-          describe command("openssl req -in #{dir}/#{csr['filename']} -noout -text | grep \"DNS:#{san['alias']}\"") do
+      describe ("check san (dns)") do
+        csr['distinguished_name']['san']['dns'].each do |dns|
+          describe command("openssl req -in #{dir}/#{csr['filename']} -noout -text | grep \"DNS:#{dns['alias']}\"") do
+            its(:exit_status) { should eq 0 }
+          end
+        end
+        csr['distinguished_name']['san']['ip'].each do |ip|
+          describe command("openssl req -in #{dir}/#{csr['filename']} -noout -text | grep \"IP Address:#{ip['alias']}\"") do
             its(:exit_status) { should eq 0 }
           end
         end

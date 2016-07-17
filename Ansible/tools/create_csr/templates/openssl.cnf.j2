@@ -217,6 +217,9 @@ authorityKeyIdentifier=keyid,issuer
 
 # This is required for TSA certificates.
 # extendedKeyUsage = critical,timeStamping
+{% if item.type == client %}
+extendedKeyUsage = clientAuth
+{% endif %}
 
 [ v3_req ]
 
@@ -224,6 +227,19 @@ authorityKeyIdentifier=keyid,issuer
 
 basicConstraints = CA:FALSE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+
+{% if item.type == server and item.san is defined %}
+subjectAltName = @alt_names
+
+[ alt_names ]
+{% i = 1 %}
+{% for alias in item.san %}
+DNS.{{ i }} = {{ alias }}
+DNS.2 = www.bbrfkr.mydns.jp
+{% i = i + 1 %}
+{% endfor %}
+
+{% endif %}
 
 [ v3_ca ]
 

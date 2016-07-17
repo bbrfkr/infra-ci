@@ -17,5 +17,28 @@ describe ("create_csr") do
         its(:stdout) { should eq "subject=/C=#{dn['country']}/ST=#{dn['state']}/L=#{dn['locality_name']}/O=#{dn['organization']}/OU=#{dn['unit_name']}/CN=#{dn['common_name']}\n" }
       end
     end
+
+    describe ("check cert type") do
+      if csr['type'] == "server"
+        describe command("openssl req -in #{dir}/#{csr['filename']} -noout -text | grep \"TLS Web Server Authentication\"") do
+          its(:exit_status) { should eq 0 }
+        end
+      end
+      if csr['type'] == "client"
+        describe command("openssl req -in #{dir}/#{csr['filename']} -noout -text | grep \"TLS Web Client Authentication\"") do
+          its(:exit_status) { should eq 0 }
+        end
+      end
+    end
+
+    if csr['type'] == "server" && defined? csr['distinguished_name']['san']
+      describe ("check san") do
+        csr['distinguished_name']['san'].each do |san|
+          describe command("openssl req -in #{dir}/#{csr['filename']} -noout -text | grep \"DNS:#{san['alias']}\"") do
+            its(:exit_status) { should eq 0 }
+          end
+        end
+      end
+    end
   end
 end

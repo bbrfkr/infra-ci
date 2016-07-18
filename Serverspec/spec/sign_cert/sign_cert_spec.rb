@@ -25,7 +25,7 @@ certs.each do |cert|
       end
     end
 
-    if defined? cert['distinguished_name']['san']
+    if cert['distinguished_name']['san'] != nil
       describe ("check san") do
         cert['distinguished_name']['san']['dns'].each do |dns|
           describe command("openssl x509 -in #{dir}/#{cert['filename']} -noout -text | grep \"DNS:#{dns['alias']}\"") do

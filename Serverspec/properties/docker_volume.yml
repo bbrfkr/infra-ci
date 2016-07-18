@@ -1,0 +1,8 @@
+localhost:
+  docker_volume:
+    docker_host: tcp://localhost:2375
+    tls:
+      enable: no
+    volumes:
+      - name: test
+

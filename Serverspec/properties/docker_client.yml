@@ -1,0 +1,4 @@
+localhost:
+  docker_client:
+    install_user: tatsunori
+

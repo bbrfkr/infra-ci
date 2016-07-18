@@ -1,0 +1,12 @@
+---
+docker:
+  listen:
+    - protocol: tcp
+      address: 0.0.0.0
+      port: 2375
+    - protocol: unix
+      address: /var/run/docker.sock
+  tls:
+    enable: no
+    cert_dir: /etc/docker
+

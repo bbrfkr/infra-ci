@@ -1,0 +1,13 @@
+sign_cert:
+  work_dir: /etc/pki/server
+  fetch_dir: /tmp/cert
+  ca_cert:
+    private_key:
+      passphrase: password
+  certs:
+    - csr: 
+        filename: test.csr
+      filename: test.pem
+      validity_term: 1095
+
+    

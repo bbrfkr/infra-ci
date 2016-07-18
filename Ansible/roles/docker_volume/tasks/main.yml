@@ -1,0 +1,8 @@
+---
+- name: create volumes
+  include: create_volumes.yml
+  with_items:
+    "{{ docker_volume.volumes }}"
+  loop_control:
+    loop_var: volume
+

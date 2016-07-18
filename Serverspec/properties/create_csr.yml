@@ -1,0 +1,22 @@
+localhost:
+  create_csr:
+    csrs_and_keys_dir: /tmp/csr
+    csrs:
+      - type: server # サーバ証明書: server, クライアント証明書: client
+        filename: test.csr
+        distinguished_name:
+          country: JP
+          state: test
+          locality_name: test
+          organization: test
+          unit_name: test
+          common_name: test
+          san:
+            dns:
+              - alias: localhost
+            ip:
+              - alias: 127.0.0.1
+        private_key:
+          filename: test.key
+          passphrase: password
+

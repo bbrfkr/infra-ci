@@ -1,0 +1,18 @@
+---
+- name: check volume exists
+  shell: >
+    DOCKER_HOST={{ docker_volume.docker_host }}
+    {{ "DOCKER_TLS_VERIFY=1" if docker_volume.tls.enable else "" }}
+    docker volume inspect {{ volume.name }}
+  changed_when: false
+  failed_when: false
+  register: ret_check_volume
+
+- name: create volume
+  shell: >
+    DOCKER_HOST={{ docker_volume.docker_host }}
+    {{ "DOCKER_TLS_VERIFY=1" if docker_volume.tls.enable else "" }}
+    docker volume create --name {{ volume.name }}
+  when:
+    ret_check_volume.rc != 0
+ 

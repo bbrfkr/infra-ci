@@ -1,0 +1,26 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: create work dir
+      file:
+        path: "{{ create_csr.work_dir }}"
+        state: directory
+
+    - name: backup openssl config file
+      shell: cp -p /etc/pki/tls/openssl.cnf /etc/pki/tls/openssl.cnf.bk
+
+    - include: create_csr.yml
+      with_items:
+        "{{ create_csr.csrs }}"
+      loop_control:
+        loop_var: csr
+
+    - name: restore openssl config file
+      shell: mv -f /etc/pki/tls/openssl.cnf.bk /etc/pki/tls/openssl.cnf
+
+    - name: delete work dir
+      file:
+        path: "{{ create_csr.work_dir }}"
+        state: absent
+

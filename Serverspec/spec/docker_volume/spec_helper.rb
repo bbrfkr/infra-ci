@@ -21,7 +21,7 @@ set :ssh_options, options
 set :request_pty, true
 
 # Disable sudo
-# set :disable_sudo, true
+set :disable_sudo, true
 
 
 # Set environment variables

@@ -1,0 +1,11 @@
+---
+docker_tls:
+  docker_cert_path: /etc/docker
+  certs:
+    ca_cert:
+      filename: cacert.pem
+    cert:
+      filename: cert.pem
+    key:
+      filename: key.pem
+

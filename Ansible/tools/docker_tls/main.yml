@@ -1,0 +1,23 @@
+---
+- name: docker_tls
+  hosts: all
+  become: yes
+  tasks:
+    - name: create certs path
+      file:
+        path: "{{ docker_tls.docker_cert_path }}"
+        state: directory
+
+    - name: copy CA cert
+      copy:
+        src: files/{{ docker_tls.certs.ca_cert.filename }}
+        dest: "{{ docker_tls.docker_cert_path }}/ca.pem"
+
+    - name: copy cert
+      copy:
+        src: files/{{ docker_tls.certs.cert.filename }}
+        dest: "{{ docker_tls.docker_cert_path }}/cert.pem"
+    - name: copy key
+      copy:
+        src: files/{{ docker_tls.certs.key.filename }}
+        dest: "{{ docker_tls.docker_cert_path }}/key.pem"

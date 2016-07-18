@@ -1,0 +1,4 @@
+localhost:
+  docker_tls:
+    docker_cert_path: /etc/docker
+

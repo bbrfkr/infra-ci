@@ -1,0 +1,6 @@
+localhost:
+  docker_client:
+    install_user: root
+    tls:
+      enable: no
+

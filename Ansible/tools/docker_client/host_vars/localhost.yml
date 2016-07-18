@@ -1,0 +1,13 @@
+---
+docker_client:
+  install_user: root
+  tls:
+    enable: no
+    certs:
+      ca_cert:
+        filename: cacert.pem
+      cert:
+        filename: cert.pem
+      key:
+        filename: key.pem
+

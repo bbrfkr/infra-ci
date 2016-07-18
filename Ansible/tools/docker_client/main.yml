@@ -1,0 +1,36 @@
+---
+- name: docker_client
+  hosts: all
+  become: yes
+  tasks:
+    - name: package install
+      yum:
+        name: docker
+        state: installed
+
+    - block:
+        - name: get install user's home dir
+          shell: "grep -e \"^{{ docker_client.install_user }}\" /etc/passwd | awk -F: '{ print $6 }'"
+          changed_when: false
+          register: ret_get_home
+
+        - name: create certs dir
+          file:
+            path: "{{ ret_get_home.stdout }}/.docker"
+            state: directory
+
+        - name: copy CA cert
+          copy:
+            src: files/{{ docker_client.tls.certs.ca_cert.filename }}
+            dest: "{{ ret_get_home.stdout }}/.docker/ca.pem"
+
+        - name: copy cert
+          copy:
+            src: files/{{ docker_client.tls.certs.cert.filename }}
+            dest: "{{ ret_get_home.stdout }}/.docker/cert.pem"
+
+        - name: copy key
+          copy:
+            src: files/{{ docker_client.tls.certs.key.filename }}
+            dest: "{{ ret_get_home.stdout }}/.docker/key.pem"
+      when: docker_client.tls.enable == true

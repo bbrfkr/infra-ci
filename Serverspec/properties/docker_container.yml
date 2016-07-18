@@ -1,0 +1,8 @@
+localhost:
+  docker_container:
+    docker_host: tcp://localhost:2375
+    tls:
+      enable: no
+    containers:
+      - name: test
+

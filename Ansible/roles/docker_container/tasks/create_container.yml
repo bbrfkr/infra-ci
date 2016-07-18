@@ -2,6 +2,8 @@
 - name: create {{ item.state if item.state == "present" else "started" }} container
   docker_container:
     name: "{{ item.name }}"
+    docker_host: "{{ True if lookup('env', 'DOCKER_HOST') == 1 else False }}"
+    tls_verify: "{{ True if lookup('env', 'DOCKDER_TLS_VERIFY') == 1 else False }}"
     image: "{{ item.image }}"
     command: "{{ item.command }}"
     exposed_ports:
@@ -11,5 +13,6 @@
     tty: "{{ item.tty | default(\"no\") }}"
     interactive: "{{ item.interactive | default(\"no\") }}"
     detach: "{{ item.detach | default(\"no\")}}"
-    docker_host: "{{ lookup('env', 'DOCKER_HOST') }}"
+    volumes: "{{ item.volumes | default(None) }}"
+    volumes_from: "{{ item.volumes_from | default(None) }}"
   when: item.state == "started" or item.state == "present"

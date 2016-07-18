@@ -1,13 +1,17 @@
 ---
-docker_container_containers:
-  - name: default
-    image: docker.io/centos:7
-    command: /bin/bash
-#   exposed_ports:
-#     - 2022:22/tcp
-    network_mode: bridge
-    state: started
-    tty: yes
-    interactive: yes
-    detach: yes
-
+docker_container:
+  containers:
+    - name: test
+      image: docker.io/centos:7
+      command: /bin/bash
+      #exposed_ports:
+      #  - 2022:22/tcp
+      network_mode: bridge
+      state: started
+      tty: yes
+      interactive: yes
+      detach: yes
+      #volumes
+      #  - test:/test
+      #volumes_from
+      #  - test_data

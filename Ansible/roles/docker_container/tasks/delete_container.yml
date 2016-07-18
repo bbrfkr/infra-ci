@@ -10,6 +10,7 @@
     become_user: root
     environment:
       DOCKER_HOST: "{{ lookup('env', 'DOCKER_HOST') }}"
+      DOCKER_TLS_VERIFY: "{{ 1 if lookup('env', 'DOCKER_TLS_VERIFY') == 1 else None }}"
     
   - name: fail
     fail: 

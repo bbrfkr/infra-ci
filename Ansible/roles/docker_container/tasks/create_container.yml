@@ -1,0 +1,43 @@
+---
+- name: check container exists
+  shell: docker inspect {{ item.name }}
+  changed_when: false
+  failed_when: false
+  environment:
+    DOCKER_HOST: "{{ docker_container.docker_url }}"
+    DOCKER_TLS_VERIFY: "{{ 1 if docker_container.use_tls == \"verify\" else None }}"
+  register: ret_check_container
+
+- name: create {{ item.state if item.state == "present" else "started" }} container
+  shell: >
+    docker {{ "run" if item.state == "started" else "create" }} \
+           {{ "-i" if item.interactive is defined and item.interactive else "" }} \
+           {{ "-t" if item.tty is defined and item.tty else "" }} \
+           {{ "-d" if item.detach is defined and item.detach else "" }} \
+           {{ "--net=" + item.network_mode if item.network_mode is defined else "" }} \
+           {{ "--name " + item.name }} \
+           {% if item.exposed_ports is defined %}
+             {% for exposed_port in item.exposed_ports %}
+               {{ "-p " + exposed_port }} \
+             {% endfor %}
+           {% endif %}
+           {% if item.volumes is defined %}
+             {% for volume in item.volumes %}
+               {{ "-v " + volume }} \
+             {% endfor %}
+           {% endif %}
+           {% if item.volumes_from is defined %}
+             {% for volume_from in item.volumes_from %}
+               {{ "--volumes-from " + volume_from }} \
+             {% endfor %}
+           {% endif %}
+           {{ item.image }} \ 
+           {{ item.command if item.command is defined else "" }}
+  environment:
+    DOCKER_HOST: "{{ docker_container.docker_url }}"
+    DOCKER_TLS_VERIFY: "{{ 1 if docker_container.use_tls == \"verify\" else None }}"
+  when: >
+    (item.state == "started" or
+    item.state == "present") and
+    ret_check_container.rc != 0
+

@@ -1,0 +1,28 @@
+---
+- block:
+
+  - name: check processes of container
+    shell: docker exec {{ item.name }} ps -N -p 1 -C ps
+    changed_when: false
+    failed_when: false
+    register: ret_check
+    become: true
+    become_user: root
+    environment:
+      DOCKER_HOST: "{{ docker_container.docker_url }}"
+      DOCKER_TLS_VERIFY: "{{ 1 if docker_container.use_tls == \"verify\" else None }}"
+    
+  - name: fail
+    fail: 
+      msg: process whose pid is not 1 exists in container {{ item.name }} !
+    when: ret_check.rc == 0
+
+  - name: "{{ item.state if item.state == \"absent\" else \"stop\" }} container"
+    docker:
+      name: "{{ item.name }}"
+      state: "{{ item.state }}"
+      image: "{{ item.image }}"
+      docker_url: "{{ docker_container.docker_url }}"
+      use_tls: "{{ docker_container.use_tls }}"
+
+  when: item.state in [ "stopped", "absent" ]

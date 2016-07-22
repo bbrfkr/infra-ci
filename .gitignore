@@ -7,4 +7,3 @@ Ansible/tools/**/files/*
 Ansible/host_vars_dir/*
 Ansible/group_vars_dir/*
 !**/.gitkeep
-

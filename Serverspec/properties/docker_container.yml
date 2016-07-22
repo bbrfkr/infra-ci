@@ -4,5 +4,10 @@ localhost:
     tls:
       enable: no
     containers:
-      - name: test
+      - name: test01
+        state: started
+      - name: test02
+        state: stopped
+      - name: test03
+        state: absent
 

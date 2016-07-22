@@ -1,4 +1,7 @@
 ---
+- set_fact:
+    volume: "{{ item }}"
+
 - name: check volume exists
   shell: >
     DOCKER_HOST={{ docker_volume.docker_host }}

@@ -9,8 +9,8 @@
     become: true
     become_user: root
     environment:
-      DOCKER_HOST: "{{ lookup('env', 'DOCKER_HOST') }}"
-      DOCKER_TLS_VERIFY: "{{ 1 if lookup('env', 'DOCKER_TLS_VERIFY') == 1 else None }}"
+      DOCKER_HOST: "{{ docker_container.docker_url }}"
+      DOCKER_TLS_VERIFY: "{{ 1 if docker_container.use_tls == \"verify\" else None }}"
     
   - name: fail
     fail: 
@@ -18,9 +18,11 @@
     when: ret_check.rc == 0
 
   - name: "{{ item.state if item.state == \"absent\" else \"stop\" }} container"
-    docker_container:
+    docker:
       name: "{{ item.name }}"
       state: "{{ item.state }}"
-      docker_host: "{{ lookup('env', 'DOCKER_HOST') }}"
+      image: "{{ item.image }}"
+      docker_url: "{{ docker_container.docker_url }}"
+      use_tls: "{{ docker_container.use_tls }}"
 
   when: item.state in [ "stopped", "absent" ]

@@ -1,7 +1,23 @@
 ---
 docker_container:
+  docker_url: tcp://localhost:2375
+  use_tls: "no" # TLS認証を行う: "verify", 行わない: "no"
   containers:
-    - name: test
+    - name: test01
+      image: docker.io/centos:7
+      command: /bin/bash
+      exposed_ports:
+        - 2022:22/tcp
+      network_mode: bridge
+      state: started
+      tty: yes
+      interactive: yes
+      detach: yes
+      #volumes:
+      #  - test:/test
+      #volumes_from:
+      #  - test_data
+    - name: test02
       image: docker.io/centos:7
       command: /bin/bash
       #exposed_ports:
@@ -11,7 +27,27 @@ docker_container:
       tty: yes
       interactive: yes
       detach: yes
-      #volumes
+      #volumes:
       #  - test:/test
-      #volumes_from
+      #volumes_from:
       #  - test_data
+    - name: test02
+      state: stopped
+      image: docker.io/centos:7
+    - name: test03
+      image: docker.io/centos:7
+      command: /bin/bash
+      #exposed_ports:
+      #  - 2022:22/tcp
+      network_mode: bridge
+      state: present
+      tty: yes
+      interactive: yes
+      #detach: yes
+      #volumes:
+      #  - test:/test
+      #volumes_from:
+      #  - test_data
+    - name: test03
+      state: absent
+      image: docker.io/centos:7

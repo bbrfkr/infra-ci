@@ -1,3 +1,6 @@
+- set_fact:
+    csr: "{{ item }}"
+
 - block:
     - name: setting openssl config file
       template:

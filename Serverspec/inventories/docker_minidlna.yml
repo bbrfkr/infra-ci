@@ -1,0 +1,4 @@
+- docker_container: test
+  docker_host: tcp://localhost:2375 
+  docker_cert_path: #/root/.docker # not uging tls, this parameter should be empty
+

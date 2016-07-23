@@ -1,0 +1,33 @@
+---
+- name: update package list
+  raw: apt-get update
+  changed_when: false
+
+- name: check python is installed
+  raw: dpkg -l python
+  changed_when: false
+  failed_when: false
+  register: ret_check_python
+
+- name: install python
+  raw: apt-get install -y python
+  changed_when: ret_install_python.rc == 0
+  when: ret_check_python.rc != 0
+  register: ret_install_python
+
+- name: install package
+  apt:
+    name: minidlna
+    state: installed
+
+- name: set config file
+  template:
+    src: minidlna.conf.j2
+    dest: /etc/minidlna.conf
+  notify: restart service
+
+- name: start service
+  service:
+    name: minidlna
+    state: started
+

@@ -1,0 +1,7 @@
+---
+docker_minidlna:
+  media_dir:
+    - /var/lib/minidlna
+  #log_dir: /var/log
+  http_port: 8200
+  #friendly_name: minidlna01

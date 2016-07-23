@@ -11,7 +11,6 @@ ROLES_DIR=`pwd`/roles
 GATHERING=explicit
 sed -i -e "s|roles_path\s*=\s*.\+|roles_path = ${ROLES_DIR}|g" ~/.ansible-art.cfg
 sed -i -e "s|gathering\s*=\s*.\+|gathering = ${GATHERING}|g" ~/.ansible-art.cfg
-ansible-art apply docker_minidlna
 ansible-art apply docker_minidlna inventories/docker_minidlna
 
 ### Serverspec

@@ -1,12 +1,12 @@
 #!/bin/sh
 export PATH=${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:
-export DOCKER_HOST=tcp://localhost:2357
+export DOCKER_HOST=tcp://localhost:2375
 
 ### create container
 docker run -itd --name test -p 1900:1900/udp -p 8200:8200/tcp --net=host ubuntu:16.04 /bin/bash
 
 ### Ansible
-cd ../Ansible
+cd Ansible
 ROLES_DIR=`pwd`/roles
 GATHERING=explicit
 sed -i -e "s|roles_path\s*=\s*.\+|roles_path = ${ROLES_DIR}|g" ~/.ansible-art.cfg

@@ -18,7 +18,7 @@
 - name: install japanese packages
   apt:
     name: "{{ item }}"
-    state: intalled
+    state: installed
   with_items:
     - language-pack-ja-base
     - language-pack-ja

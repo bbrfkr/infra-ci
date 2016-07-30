@@ -1,0 +1,4 @@
+---
+docker_japanese:
+  locale: ja_JP.UTF-8
+

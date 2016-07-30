@@ -1,5 +1,0 @@
----
-- name: restart service
-  service:
-    name: minidlna
-    state: restarted

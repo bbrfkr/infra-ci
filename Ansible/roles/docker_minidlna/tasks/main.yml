@@ -32,7 +32,6 @@
   template:
     src: minidlna.conf.j2
     dest: /etc/minidlna.conf
-  notify: restart service
 
 - name: start service
   service:

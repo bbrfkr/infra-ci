@@ -15,14 +15,6 @@
   when: ret_check_python.rc != 0
   register: ret_install_python
 
-- name: install japanese packages
-  apt:
-    name: "{{ item }}"
-    state: installed
-  with_items:
-    - language-pack-ja-base
-    - language-pack-ja
-
 - name: install package
   apt:
     name: minidlna
@@ -32,7 +24,6 @@
   template:
     src: minidlna.conf.j2
     dest: /etc/minidlna.conf
-  notify: restart service
 
 - name: start service
   service:

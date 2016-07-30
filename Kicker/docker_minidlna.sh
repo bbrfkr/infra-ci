@@ -3,7 +3,7 @@ export PATH=${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:
 export DOCKER_HOST=tcp://localhost:2375
 
 ### create container
-docker run -itd --name test -p 1900:1900/udp -p 8200:8200/tcp --net=host ubuntu:16.04 /bin/bash
+docker run -itd --name test --net=host ubuntu:16.04 /bin/bash
 
 ### Ansible
 cd Ansible

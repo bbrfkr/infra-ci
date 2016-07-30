@@ -1,2 +1,2 @@
-test ansible_connection=docker ansible_gather_facts=False
+test ansible_connection=docker
 

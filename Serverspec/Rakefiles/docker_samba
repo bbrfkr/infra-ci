@@ -1,0 +1,22 @@
+require 'rake'
+require 'rspec/core/rake_task'
+require 'yaml'
+
+containers = YAML.load_file('inventories/docker_samba.yml')
+
+desc "Run serverspec to all hosts"
+task :spec => 'spec:all'
+
+namespace :spec do
+  task :all => containers.each.map {|host| 'spec:' + host['docker_container'] }
+  containers.each do |container|
+    desc "Run serverspec to #{container['docker_container']}"
+    RSpec::Core::RakeTask.new(container['docker_container'].to_sym) do |t|
+      ENV['DOCKER_CONTAINER'] = container['docker_container']
+      ENV['DOCKER_HOST'] = container['docker_host']
+      ENV['DOCKER_CERT_PATH'] = container['docker_cert_path']
+      t.pattern = 'spec/docker_samba/**/*_spec.rb'
+    end
+  end
+end
+

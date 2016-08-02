@@ -1,0 +1,51 @@
+---
+- name: install package
+  yum:
+    name: samba
+    state: installed
+
+- name: set config file
+  template:
+    src: smb.conf.j2
+    dest: /etc/samba/smb.conf
+
+- name: add os user
+  user: 
+    name: "{{ item.name }}"
+    password: "{{ item.password | password_hash('sha512') }}"
+    update_password: on_create
+    state: present
+  with_items:
+    "{{ docker_samba.user }}"
+
+- name: check samba user exists
+  shell: pdbedit -u {{ item.name }}
+  changed_when: false
+  failed_when: false
+  register: ret_check_user
+  with_items:
+    "{{ docker_samba.user }}"
+
+- name: create samba user
+  shell: >
+    echo -e "{{ item.item.password }}\n{{ item.item.password }}" | \
+    pdbedit -a -u {{ item.item.name }} -t
+  when: item.rc != 0
+  with_items:
+    "{{ ret_check_user.results }}"
+
+- name: check service is running
+  shell: ps -C {{ item }}
+  changed_when: false
+  failed_when: false
+  register: ret_check_service
+  with_items:
+    - smbd
+    - nmbd
+
+- name: start service
+  shell: "{{ item.item }} -D"
+  when: item.rc != 0
+  with_items:
+    "{{ ret_check_service.results }}"
+

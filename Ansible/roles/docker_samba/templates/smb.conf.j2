@@ -1,0 +1,30 @@
+#########################################
+#
+# global setting
+# (valid via all share settings)
+#
+#########################################
+
+[global]
+workgroup = {{ docker_samba.global.workgroup }}
+security = user
+unix charset = UTF8
+#display charset = UTF8
+map to guest = never
+passdb backend = tdbsam
+
+{% for share_dir in docker_samba.share_dirs %}
+#########################################
+#
+# {{ share_dir.share_name }}
+#
+#########################################
+
+[{{ share_dir.share_name }}]
+path = {{ share_dir.path }}
+read only = {{ share_dir.read_only }}
+browseable = {{ share_dir.browseable }}
+create mask = {{ share_dir.create_mask }}
+directory mask = {{ share_dir.directory_mask }}
+
+{% endfor %}

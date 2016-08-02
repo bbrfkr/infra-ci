@@ -1,0 +1,14 @@
+---
+docker_samba:
+  global:
+    workgroup: WORKGROUP
+  share_dirs:
+    - share_name: tmp
+      path: /tmp
+      read_only: "yes"
+      browseable: "yes"
+      create_mask: "700"
+      directory_mask: "700"
+  user:
+    - name: root
+      password: password

@@ -22,4 +22,3 @@
   shell: /usr/sbin/sshd
   when: ret_check_service.rc != 0
 
-

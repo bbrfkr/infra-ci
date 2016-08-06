@@ -10,6 +10,7 @@
 
 - name: create private keys
   shell: /usr/sbin/sshd-keygen
+  args: 
     creates: /etc/ssh/ssh_host_rsa_key
 
 - name: check service is running

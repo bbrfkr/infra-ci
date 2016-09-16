@@ -1,6 +1,13 @@
 require 'openstack_network/spec_helper.rb'
 
 describe ("openstack_network") do
+  describe ("check firewalld is disabled")
+    describe service('firewalld') do
+      it { should_not be_enabled }
+      it { should_not be_running }
+    end
+  end
+
   describe ("check hostname") do
     describe command("uname -n") do
       its(:stdout) { should eq "#{property['openstack_network']['hostname']}\n" }

@@ -1,0 +1,25 @@
+---
+- name: install packages
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - openssh-server
+    - openssh-clients
+    - initscripts
+
+- name: create private keys
+  shell: /usr/sbin/sshd-keygen
+  args: 
+    creates: /etc/ssh/ssh_host_rsa_key
+
+- name: check service is running
+  shell: ps -C sshd
+  changed_when: false
+  failed_when: false
+  register: ret_check_service
+
+- name: start service
+  shell: /usr/sbin/sshd
+  when: ret_check_service.rc != 0
+

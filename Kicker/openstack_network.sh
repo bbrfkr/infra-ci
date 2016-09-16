@@ -2,7 +2,7 @@
 export PATH=${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:
 
 ### Vagrant(pre)
-cd Vagrant/openstack
+cd Vagrant/openstack_network
 vagrant up
 
 ### Ansible(pre)

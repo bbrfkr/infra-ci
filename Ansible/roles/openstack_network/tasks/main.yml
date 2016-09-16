@@ -1,0 +1,6 @@
+---
+- include: Disable_Firewalld.yml
+- include: Hostname.yml
+- include: Hosts.yml
+- include: Resolv.yml
+

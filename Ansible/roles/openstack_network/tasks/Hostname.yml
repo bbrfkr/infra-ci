@@ -1,0 +1,10 @@
+---
+- name: Hostname
+  hostname: >
+   name={{ hostname }}
+  notify:
+    - reboot(reboot)
+    - reboot(wait_ssh_port_down)
+    - reboot(wait_ssh_port_up)
+
+

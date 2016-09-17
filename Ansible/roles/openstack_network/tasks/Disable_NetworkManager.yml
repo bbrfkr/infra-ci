@@ -1,0 +1,7 @@
+---
+- name: Disable_NetworkManager
+  service: >
+    name=NetworkManager
+    state=stopped
+    enabled=no
+

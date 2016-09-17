@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -xe
 export PATH=${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:
 
 ### Vagrant(pre)
@@ -34,12 +34,4 @@ cd ../openstack_ntp_02
 vagrant destroy -f
 
 exit $RC
-RC=$?
 
-### Vagrant(post)
-cd ../Vagrant/openstack_ntp_01
-vagrant destroy -f
-cd ../openstack_ntp_02
-vagrant destroy -f
-
-exit $RC

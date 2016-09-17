@@ -4,9 +4,6 @@ describe ("openstack_ntp") do
   hostname = Specinfra::backend.run_command("uname -n")[:stdout].chomp()
   controller = property['openstack_ntp']['controller']
 
-  p hostname
-  p controller
-
   describe ("check service is enabled") do
     describe service("chronyd") do
       it { should be_enabled }

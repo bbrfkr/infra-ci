@@ -1,0 +1,5 @@
+---
+- include: Install_Chrony.yml
+- include: Setting_Chrony.yml
+- include: Service_Chrony.yml
+

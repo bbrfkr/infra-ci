@@ -1,0 +1,6 @@
+---
+- name: Install_Chrony
+  yum: >
+    name=chrony
+    state=installed
+

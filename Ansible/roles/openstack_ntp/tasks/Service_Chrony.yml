@@ -1,0 +1,7 @@
+---
+- name: Service_Chrony
+  service: >
+    name=chronyd
+    state=started
+    enabled=yes
+

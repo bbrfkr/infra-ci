@@ -1,0 +1,38 @@
+---
+- name: Setting_Chrony(delete_server_entry)
+  lineinfile: >
+    dest=/etc/chrony.conf
+    regexp="^server\s.\.centos\.pool\.ntp\.org\siburst"
+    state=absent
+
+- name: Setting_Chrony(add_server_entry_for_controller)
+  lineinfile:
+    dest=/etc/chrony.conf
+    line="server {{ item }} iburst"
+    state=present
+    insertafter="# Please consider joining the pool"
+  with_items: >
+    controller_ntp_entry
+  when: >
+    ansible_hostname == controller
+
+- name: Setting_Chrony(add_server_entry_for_others)
+  lineinfile:
+    dest=/etc/chrony.conf
+    line="server {{ controller }} iburst"
+    state=present
+    insertafter="# Please consider joining the pool"
+  when: >
+    ansible_hostname != controller
+
+- name: Setting_Chrony(add_allow_entry_for_controller)
+  lineinfile:
+    dest=/etc/chrony.conf
+    line="allow {{ item }}"
+    state=present
+    insertafter="# Allow NTP client access from local network"
+  with_items:
+    controller_allow_entry
+  when: >
+    ansible_hostname == controller
+

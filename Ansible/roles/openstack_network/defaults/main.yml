@@ -1,9 +1,10 @@
 ---
-hosts_entries:
-  - name: public_dns
-    ip: 8.8.8.8
-dns_servers:
-  - server: 8.8.8.8
-  - server: 8.8.4.4
-hostname: localhost
+openstack_network:
+  hosts_entries:
+    - name: public_dns
+      ip: 8.8.8.8
+  dns_servers:
+    - server: 8.8.8.8
+    - server: 8.8.4.4
+  hostname: localhost
 

@@ -10,7 +10,9 @@ vagrant up
 ### Ansible(pre)
 cd ../../Ansible
 ROLES_DIR=`pwd`/roles
+GATHERING=implicit
 sed -i -e "s|roles_path\s*=\s*.\+|roles_path = ${ROLES_DIR}|g" ~/.ansible-art.cfg
+sed -i -e "s|gathering\s*=\s*.\+|gathering = ${GATHERING}|g" ~/.ansible-art.cfg
 
 ansible-art apply vagrant_root inventories/vagrant_root -a "-s"
 ansible-art apply vagrant_root inventories/vagrant_root -a "-s --extra-vars=\"ansible_port=2223\""

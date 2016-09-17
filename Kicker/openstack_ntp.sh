@@ -12,10 +12,10 @@ cd ../../Ansible
 ROLES_DIR=`pwd`/roles
 sed -i -e "s|roles_path\s*=\s*.\+|roles_path = ${ROLES_DIR}|g" ~/.ansible-art.cfg
 
-ansible-art apply vagrant_root inventories/vagrant_root -a "-s"
-ansible-art apply vagrant_root inventories/vagrant_root -a "-s --extra-vars=\"ansible_port=2223\""
-ansible-art apply openstack_ntp inventories/openstack_ntp -p host_vars_dir/openstack_ntp_01
-ansible-art apply openstack_ntp inventories/openstack_ntp -p host_vars_dir/openstack_ntp_02 -a "--extra-vars=\"ansible_port=2223\""
+ansible-art apply vagrant_root inventories/vagrant_root -a "-s -vvvvv"
+ansible-art apply vagrant_root inventories/vagrant_root -a "-s --extra-vars=\"ansible_port=2223\" -vvvvv"
+ansible-art apply openstack_ntp inventories/openstack_ntp -p host_vars_dir/openstack_ntp_01 -a "-vvvvv"
+ansible-art apply openstack_ntp inventories/openstack_ntp -p host_vars_dir/openstack_ntp_02 -a "--extra-vars=\"ansible_port=2223\" -vvvvv"
 
 ### Serverspec
 cd ../Serverspec

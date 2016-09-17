@@ -1,7 +1,7 @@
 ---
 - name: Hostname
   hostname: >
-   name={{ hostname }}
+   name={{ openstack_network.hostname }}
   notify:
     - reboot(reboot)
     - reboot(wait_ssh_port_down)

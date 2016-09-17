@@ -1,5 +1,4 @@
 ---
----
 - name: reboot(reboot)
   shell: shutdown -r
   changed_when: true

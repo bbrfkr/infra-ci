@@ -1,0 +1,12 @@
+---
+openstack_ntp:
+  controller: localhost
+  controller_ntp_entry:
+    - 0.centos.pool.ntp.org 
+    - 1.centos.pool.ntp.org 
+    - 2.centos.pool.ntp.org 
+    - 3.centos.pool.ntp.org 
+  controller_allow_network:
+    - 192.168.0.0/24
+
+

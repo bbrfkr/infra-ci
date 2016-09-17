@@ -4,6 +4,4 @@
 **/group_vars/*
 !**/host_vars/localhost.yml
 Ansible/tools/**/files/*
-Ansible/host_vars_dir/*
-Ansible/group_vars_dir/*
 !**/.gitkeep

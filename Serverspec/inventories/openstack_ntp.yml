@@ -1,0 +1,4 @@
+- conn_host: localhost
+  conn_user: root
+  conn_pass: password
+  ssh_port: "2223"

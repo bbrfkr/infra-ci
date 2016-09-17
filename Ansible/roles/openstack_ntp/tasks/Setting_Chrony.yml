@@ -25,14 +25,14 @@
   when: >
     ansible_hostname != controller
 
-- name: Setting_Chrony(add_allow_entry_for_controller)
+- name: Setting_Chrony(add_allow_ip_for_controller)
   lineinfile:
     dest=/etc/chrony.conf
     line="allow {{ item }}"
     state=present
     insertafter="# Allow NTP client access from local network"
   with_items:
-    controller_allow_entry
+    controller_allow_ip
   when: >
     ansible_hostname == controller
 

@@ -4,6 +4,7 @@
     dest=/etc/chrony.conf
     regexp="^server\s.\.centos\.pool\.ntp\.org\siburst"
     state=absent
+  notify: restart service
 
 - name: Setting_Chrony(add_server_entry_for_controller)
   lineinfile:
@@ -12,18 +13,20 @@
     state=present
     insertafter="# Please consider joining the pool"
   with_items: >
-    controller_ntp_entry
+    openstack_ntp.controller_ntp_entry
   when: >
-    ansible_hostname == controller
+    ansible_hostname == openstack_ntp.controller
+  notify: restart service
 
 - name: Setting_Chrony(add_server_entry_for_others)
   lineinfile:
     dest=/etc/chrony.conf
-    line="server {{ controller }} iburst"
+    line="server {{ openstack_ntp.controller }} iburst"
     state=present
     insertafter="# Please consider joining the pool"
   when: >
-    ansible_hostname != controller
+    ansible_hostname != openstack_ntp.controller
+  notify: restart service
 
 - name: Setting_Chrony(add_allow_ip_for_controller)
   lineinfile:
@@ -32,7 +35,8 @@
     state=present
     insertafter="# Allow NTP client access from local network"
   with_items:
-    controller_allow_ip
+    openstack_ntp.controller_allow_network
   when: >
-    ansible_hostname == controller
+    ansible_hostname == openstack_ntp.controller
+  notify: restart service
 

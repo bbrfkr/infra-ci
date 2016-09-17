@@ -1,7 +1,7 @@
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 
-{% for hosts_entry in hosts_entries %}
+{% for hosts_entry in openstack_network.hosts_entries %}
 {{ hosts_entry.ip }} {{ hosts_entry.name }}
 {% endfor %}
 

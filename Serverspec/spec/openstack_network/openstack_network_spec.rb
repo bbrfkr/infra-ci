@@ -1,6 +1,13 @@
 require 'openstack_network/spec_helper.rb'
 
 describe ("openstack_network") do
+  describe ("check NetworkManager is disabled") do
+    describe service('NetworkManager') do
+      it { should_not be_enabled }
+      it { should_not be_running }
+    end
+  end
+
   describe ("check firewalld is disabled") do
     describe service('firewalld') do
       it { should_not be_enabled }

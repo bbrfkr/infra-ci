@@ -29,4 +29,10 @@ describe ("openstack_network") do
       end
     end
   end
+
+  describe ("check internet access") do
+    describe host('www.yahoo.co.jp') do
+      it { should be_reachable }
+    end
+  end
 end

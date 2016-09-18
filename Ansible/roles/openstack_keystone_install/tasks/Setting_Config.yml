@@ -1,0 +1,34 @@
+---
+- name: Setting_Config(DEFAULT)
+  lineinfile: >
+    dest=/etc/keystone/keystone.conf
+    line="admin_token = {{ openstack_keystone_install.admin_token }}"
+    insertafter="^\[DEFAULT\]"
+    state=present
+ 
+- name: Setting_Config(database)
+  lineinfile: >
+    dest=/etc/keystone/keystone.conf
+    line="connection = mysql+pymysql://keystone:{{ openstack_keystone_install.keystone_dbpass }}@{{ openstack_keystone_install.controller }}/keystone"
+    insertafter="^\[database\]"
+    state=present
+
+- name: Setting_Config(token)
+  lineinfile: >
+    dest=/etc/keystone/keystone.conf
+    line="provider = fernet"
+    insertafter="^\[token\]"
+    state=present
+
+- name: Setting_Config(ServerName)
+  lineinfile: >
+    dest=/etc/httpd/conf/httpd.conf
+    line="ServerName {{ openstack_keystone_install.controller }}"
+    insertafter="^\s*#ServerName"
+    state=present
+
+- name: Setting_Config(wsgi-keystone.conf)
+  copy: >
+    src=wsgi-keystone.conf
+    dest=/etc/httpd/conf.d/wsgi-keystone.conf
+

@@ -1,0 +1,12 @@
+---
+- name: Initialize_Keystone(db_sync)
+  shell: su -s /bin/sh -c "keystone-manage db_sync" keystone && touch /var/ansible_keyfiles/openstack_keystone/db_sync
+  args:
+    creates: /var/ansible_keyfiles/openstack_keystone/db_sync
+
+- name: Initialize_Keystone(fernet_setup)
+  shell: keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone && touch /var/ansible_keyfiles/openstack_keystone/fernet_setup
+  
+  args:
+    creates: /var/ansible_keyfiles/openstack_keystone/fernet_setup
+

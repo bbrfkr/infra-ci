@@ -1,0 +1,7 @@
+---
+openstack_keystone_install:
+  mariadb_pass: p@ssw0rd
+  keystone_dbpass: p@ssw0rd
+  admin_token: 0123456789
+  controller: localhost
+

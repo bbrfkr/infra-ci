@@ -1,0 +1,6 @@
+---
+- name: Setting_Config
+  template: >
+    src=openstack.cnf.j2
+    dest=/etc/my.cnf.d/openstack.cnf
+

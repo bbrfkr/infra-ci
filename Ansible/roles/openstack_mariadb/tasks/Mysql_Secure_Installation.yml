@@ -1,0 +1,11 @@
+---
+- name: Mysql_Secure_Installation(check)
+  shell: mysql -uroot -e "show databases;"
+  register: ret_check
+  failed_when: false
+  changed_when: false
+
+- name: Mysql_Secure_Installation(exec)
+  script: mysql_secure_installation.sh {{ openstack_mariadb.mariadb_pass }}
+  when: ret_check.rc == 0
+

@@ -1,0 +1,6 @@
+---
+- include: Install_Packages.yml
+- include: Service_Rabbitmq.yml
+- include: Add_User.yml
+- include: Setting_Permissions.yml
+

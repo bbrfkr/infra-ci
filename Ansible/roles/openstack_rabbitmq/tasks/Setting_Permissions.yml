@@ -1,0 +1,11 @@
+---
+- name: Setting_Permissions(check)
+  shell: rabbitmqctl list_permissions | grep openstack | grep "\.\*\s*\.\*\s*\.\*"
+  register: ret_check
+  changed_when: false
+  failed_when: false
+
+- name: Setting_Permissions(setting)
+  shell: rabbitmqctl set_permissions openstack ".*" ".*" ".*"
+  when: ret_check.rc != 0
+

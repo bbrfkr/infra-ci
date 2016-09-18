@@ -1,0 +1,11 @@
+---
+- name: Add_User(check)
+  shell: rabbitmqctl list_users | grep openstack
+  register: ret_check
+  changed_when: false
+  failed_when: false
+
+- name: Add_User(add)
+  shell: rabbitmqctl add_user openstack {{ openstack_rabbitmq.rabbitmq_pass }}
+  when: ret_check.rc != 0
+

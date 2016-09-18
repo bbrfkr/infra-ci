@@ -1,0 +1,7 @@
+---
+- name: Service_Rabbitmq
+  service: >
+    name=rabbitmq-server
+    state=started
+    enabled=yes
+

@@ -1,0 +1,9 @@
+---
+- name: Install_Packages
+  yum: >
+    name="{{ item }}"
+    state=installed
+  with_items:
+    - memcached
+    - python-memcached
+

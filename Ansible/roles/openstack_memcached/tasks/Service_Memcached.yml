@@ -1,0 +1,7 @@
+---
+- name: Service_Memcached
+  service: >
+    name=memcached
+    state=started
+    enabled=yes
+

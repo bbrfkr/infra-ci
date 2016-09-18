@@ -1,0 +1,16 @@
+---
+- name: Install_Packages(openstack_repo)
+  yum: >
+    name=centos-release-openstack-mitaka
+    state=installed
+
+- name: Install_Packages(openstack_clients)
+  yum: >
+    name=python-openstackclient
+    state=installed
+
+- name: Install_Packages(openstack_selinux)
+  yum: >
+    name=openstack-selinux
+    state=installed
+

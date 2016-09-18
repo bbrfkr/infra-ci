@@ -1,0 +1,8 @@
+---
+- name: Create_Directory
+  file: >
+    path=/var/ansible_keyfiles
+    owner=root
+    mode=755
+    state=directory
+

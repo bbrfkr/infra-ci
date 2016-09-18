@@ -1,0 +1,4 @@
+---
+openstack_rabbitmq:
+  rabbitmq_pass: p@ssw0rd
+

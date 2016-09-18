@@ -1,0 +1,5 @@
+---
+- include: Install_Packages.yml
+- include: Setting_Config.yml
+- include: Service_Mariadb.yml
+- include: Mysql_Secure_Installation.yml

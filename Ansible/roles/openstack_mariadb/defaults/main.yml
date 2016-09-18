@@ -1,0 +1,5 @@
+---
+openstack_mariadb:
+  mariadb_pass: p@ssw0rd
+  bind_address: 127.0.0.1
+

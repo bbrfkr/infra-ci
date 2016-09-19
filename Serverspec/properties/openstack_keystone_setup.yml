@@ -1,0 +1,11 @@
+localhost:
+  openstack_keystone_setup:
+    region: RegionOne
+    admin_token: 0123456789
+    controller: localhost
+    domain: default
+    admin_pass: p@ssw0rd
+    demo_pass: p@ssw0rd
+    script_dir: /root/openrc_scripts
+
+

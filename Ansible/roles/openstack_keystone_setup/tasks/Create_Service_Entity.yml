@@ -1,0 +1,73 @@
+---
+- name: Create_Service_Entity(check_entity)
+  shell: openstack service show keystone
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  changed_when: false
+  failed_when: false
+  register: ret_check_entity
+
+- name: Create_Service_Entity(service_entity)
+  shell: openstack service create --name keystone --description "OpenStack Identity" identity
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  when: ret_check_entity.rc != 0
+
+- name: Create_Service_Entity(check_endpoint1)
+  shell: openstack endpoint list | grep keystone | grep public
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  changed_when: false
+  failed_when: false
+  register: ret_check_endpoint1
+
+- name: Create_Service_Entity(service_endpoint1)
+  shell: openstack endpoint create --region {{ openstack_keystone_setup.region }} identity public http://{{ openstack_keystone_setup.controller }}:5000/v3
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  when: ret_check_endpoint1.rc != 0
+
+- name: Create_Service_Entity(check_endpoint2)
+  shell: openstack endpoint list | grep keystone | grep internal
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  changed_when: false
+  failed_when: false
+  register: ret_check_endpoint2
+
+- name: Create_Service_Entity(service_endpoint2)
+  shell: openstack endpoint create --region {{ openstack_keystone_setup.region }} identity internal http://{{ openstack_keystone_setup.controller }}:5000/v3
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  when: ret_check_endpoint2.rc != 0
+
+- name: Create_Service_Entity(check_endpoint3)
+  shell: openstack endpoint list | grep keystone | grep admin
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  changed_when: false
+  failed_when: false
+  register: ret_check_endpoint3
+
+- name: Create_Service_Entity(service_endpoint3)
+  shell: openstack endpoint create --region {{ openstack_keystone_setup.region }} identity admin http://{{ openstack_keystone_setup.controller }}:35357/v3
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  when: ret_check_endpoint3.rc != 0
+

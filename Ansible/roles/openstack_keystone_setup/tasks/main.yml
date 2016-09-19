@@ -1,0 +1,25 @@
+---
+- name: Check_Keystone_Setup
+  shell: grep -e "pipeline = .*\sadmin_token_auth\s.*" /etc/keystone/keystone-paste.ini
+  changed_when: false
+  failed_when: false
+  register: ret_check_keystone_setup
+
+- block:
+    - include: Create_Service_Entity.yml
+    - include: Create_Domain.yml
+    - include: Create_Admin_Project.yml
+    - include: Create_Admin_User.yml
+    - include: Create_Admin_Role.yml
+    - include: Add_Role_Admin_User.yml
+    - include: Create_Service_Project.yml
+    - include: Create_Demo_Project.yml
+    - include: Create_Demo_User.yml
+    - include: Create_User_Role.yml
+    - include: Add_Role_Demo_User.yml
+    - include: Disable_Token_Auth.yml
+  when: ret_check_keystone_setup.rc == 0
+
+- include: Create_Script_Dir.yml
+- include: Set_Openrc_Scripts.yml
+

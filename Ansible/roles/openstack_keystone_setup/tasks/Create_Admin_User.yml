@@ -1,0 +1,19 @@
+---
+- name: Create_Admin_User(check)
+  shell: openstack user show admin
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  changed_when: false
+  failed_when: false
+  register: ret_check_admin_user
+
+- name: Create_Admin_Project(create)
+  shell: openstack user create --domain {{ openstack_keystone_setup.domain }} admin --password {{ openstack_keystone_setup.admin_pass }}
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  when: ret_check_admin_user.rc != 0
+

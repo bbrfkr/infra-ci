@@ -1,0 +1,4 @@
+---
+- name: Disable_Token_Auth
+  shell: sed -i -e "s/ admin_token_auth / /g" /etc/keystone/keystone-paste.ini
+

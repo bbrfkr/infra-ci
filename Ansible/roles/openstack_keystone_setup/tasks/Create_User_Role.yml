@@ -1,0 +1,19 @@
+---
+- name: Create_User_Role(check)
+  shell: openstack role show user
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  changed_when: false
+  failed_when: false
+  register: ret_check_user_role
+
+- name: Create_User_Role(create)
+  shell: openstack role create user
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  when: ret_check_user_role.rc != 0
+

@@ -1,0 +1,19 @@
+---
+- name: Add_Role_Admin_User(check)
+  shell: openstack role list --user admin --project admin | grep admin
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  changed_when: false
+  failed_when: false
+  register: ret_check_add_role_admin_user
+
+- name: Add_Role_Admin_User(create)
+  shell: openstack role add --project admin --user admin admin
+  environment:
+    OS_TOKEN: "{{ openstack_keystone_setup.admin_token  }}"
+    OS_URL: http://{{ openstack_keystone_setup.controller }}:35357/v3
+    OS_IDENTITY_API_VERSION: 3
+  when: ret_check_add_role_admin_user.rc != 0
+

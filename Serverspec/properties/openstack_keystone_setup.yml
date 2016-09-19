@@ -1,7 +1,5 @@
 localhost:
   openstack_keystone_setup:
-    region: RegionOne
-    admin_token: 0123456789
     controller: localhost
     domain: default
     admin_pass: p@ssw0rd

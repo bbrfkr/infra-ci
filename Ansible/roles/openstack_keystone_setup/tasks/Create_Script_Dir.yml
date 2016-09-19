@@ -1,0 +1,8 @@
+---
+- name: Create_Script_Dir
+  file: >
+    path={{ openstack_keystone_setup.script_dir }}
+    owner=root
+    mode=755
+    state=directory
+

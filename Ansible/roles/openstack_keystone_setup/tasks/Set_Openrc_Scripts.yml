@@ -1,0 +1,15 @@
+---
+- name: Set_Openrc_Scripts(admin)
+  template: >
+    src=admin-openrc.j2
+    dest={{ openstack_keystone_setup.script_dir }}/admin-openrc
+    owner=root
+    mode=600
+ 
+- name: Set_Openrc_Scripts(demo)
+  template: >
+    src=demo-openrc.j2
+    dest={{ openstack_keystone_setup.script_dir }}/demo-openrc
+    owner=root
+    mode=666
+ 

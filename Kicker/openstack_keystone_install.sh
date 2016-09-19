@@ -12,7 +12,7 @@ sed -i -e "s|roles_path\s*=\s*.\+|roles_path = ${ROLES_DIR}|g" ~/.ansible-art.cf
 ansible-art apply vagrant_root inventories/vagrant_root -a "-s"
 ansible-art apply openstack_packages inventories/openstack_packages
 ansible-art apply openstack_mariadb inventories/openstack_mariadb
-ansible-art apply ansible_keyfiles inventories/openstack_ansible_keyfiles
+ansible-art apply ansible_keyfiles inventories/ansible_keyfiles
 ansible-art apply openstack_keystone_install inventories/openstack_keystone_install -p host_vars_dir/openstack_keystone_install_01
 
 ### Serverspec

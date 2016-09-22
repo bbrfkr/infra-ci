@@ -1,0 +1,10 @@
+---
+openstack_glance:
+  mariadb_pass: p@ssw0rd
+  glance_dbpass: p@ssw0rd
+  script_dir: /root/openrc_scripts
+  domain: default
+  glance_pass: p@ssw0rd
+  controller: controller
+  region: RegionOne
+

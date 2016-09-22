@@ -1,0 +1,8 @@
+---
+- include: Create_Database.yml
+- include: Create_User.yml
+- include: Create_Service.yml
+- include: Create_Endpoint.yml
+- include: Install_Package.yml
+- include: Setting_Config.yml
+

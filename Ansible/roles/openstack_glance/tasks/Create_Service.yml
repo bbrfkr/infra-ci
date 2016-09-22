@@ -1,0 +1,11 @@
+---
+- name: Create_Service(check)
+  shell: . {{ openstack_glance.script_dir }}/admin-openrc && openstack service show glance
+  register: ret_check
+  failed_when: false
+  changed_when: false
+
+- name: Create_Service(create)
+  shell: . {{ openstack_glance.script_dir }}/admin-openrc && openstack service create --name glance --description "OpenStack Image" image
+  when: ret_check.rc != 0
+

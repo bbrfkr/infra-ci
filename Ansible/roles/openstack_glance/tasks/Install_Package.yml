@@ -1,0 +1,6 @@
+---
+- name: Install_Package.yml
+  yum: >
+    name=openstack-glance
+    state=installed
+

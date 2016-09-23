@@ -1,0 +1,11 @@
+---
+- name: Initialize_Nova(api_db sync)
+  shell: su -s /bin/sh -c "nova-manage api_db sync" nova && touch /var/ansible_keyfiles/openstack_nova/api_db_sync
+  args:
+    creates: /var/ansible_keyfiles/openstack_nova/api_db_sync
+
+- name: Initialize_Nova(db sync)
+  shell: su -s /bin/sh -c "nova-manage db sync" nova && touch /var/ansible_keyfiles/openstack_nova/db_sync
+  args:
+    creates: /var/ansible_keyfiles/openstack_nova/db_sync
+

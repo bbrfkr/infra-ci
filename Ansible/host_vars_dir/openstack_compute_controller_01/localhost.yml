@@ -1,0 +1,12 @@
+---
+openstack_compute_controller:
+  mariadb_pass: p@ssw0rd
+  nova_dbpass: p@ssw0rd
+  script_dir: /root/openrc_scripts
+  domain: default
+  nova_pass: p@ssw0rd
+  region: RegionOne
+  controller: localhost
+  mgmt_ip: 127.0.0.1
+  rabbitmq_pass: p@ssw0rd
+

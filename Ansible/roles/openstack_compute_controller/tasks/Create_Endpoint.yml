@@ -1,0 +1,31 @@
+---
+- name: Create_Endpoint(check01)
+  shell: . {{ openstack_compute_controller.script_dir }}/admin-openrc && openstack endpoint list | grep nova | grep public
+  register: ret_check01
+  failed_when: false
+  changed_when: false
+
+- name: Create_Endpoint(create01)
+  shell: . {{ openstack_compute_controller.script_dir }}/admin-openrc && openstack endpoint create --region {{ openstack_compute_controller.region }} compute public http://{{ openstack_compute_controller.controller }}:8774/v2.1/%\(tenant_id\)s
+  when: ret_check01.rc != 0
+
+- name: Create_Endpoint(check02)
+  shell: . {{ openstack_compute_controller.script_dir }}/admin-openrc && openstack endpoint list | grep nova | grep internal
+  register: ret_check02
+  failed_when: false
+  changed_when: false
+
+- name: Create_Endpoint(create02)
+  shell: . {{ openstack_compute_controller.script_dir }}/admin-openrc && openstack endpoint create --region {{ openstack_compute_controller.region }} compute internal http://{{ openstack_compute_controller.controller }}:8774/v2.1/%\(tenant_id\)s
+  when: ret_check02.rc != 0
+
+- name: Create_Endpoint(check03)
+  shell: . {{ openstack_compute_controller.script_dir }}/admin-openrc && openstack endpoint list | grep nova | grep admin
+  register: ret_check03
+  failed_when: false
+  changed_when: false
+
+- name: Create_Endpoint(create03)
+  shell: . {{ openstack_compute_controller.script_dir }}/admin-openrc &&  openstack endpoint create --region {{ openstack_compute_controller.region }} compute admin http://{{ openstack_compute_controller.controller }}:8774/v2.1/%\(tenant_id\)s
+  when: ret_check03.rc != 0
+

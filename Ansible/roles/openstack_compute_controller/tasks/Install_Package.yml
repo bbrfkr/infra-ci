@@ -1,0 +1,12 @@
+---
+- name: Install_Package.yml
+  yum: >
+    name={{ item }}
+    state=installed
+  with_items:
+    - openstack-nova-api
+    - openstack-nova-conductor
+    - openstack-nova-console
+    - openstack-nova-novncproxy
+    - openstack-nova-scheduler
+

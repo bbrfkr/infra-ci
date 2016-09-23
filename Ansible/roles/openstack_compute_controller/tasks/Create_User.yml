@@ -1,0 +1,21 @@
+---
+- name: Create_User(check_exist)
+  shell: . {{ openstack_compute_controller.script_dir }}/admin-openrc && openstack user show nova
+  failed_when: false
+  changed_when: false
+  register: ret_check_exist
+
+- name: Create_User(create_user)
+  shell: . {{ openstack_compute_controller.script_dir }}/admin-openrc && openstack user create --domain {{ openstack_compute_controller.domain }} --password {{ openstack_compute_controller.nova_pass }} nova
+  when: ret_check_exist.rc != 0
+
+- name: Create_User(check_role)
+  shell: . {{ openstack_compute_controller.script_dir }}/admin-openrc && openstack role list --user nova --project service | grep admin
+  changed_when: false
+  failed_when: false
+  register: ret_check_role
+
+- name: Add_Role_Admin_User(create)
+  shell: . {{ openstack_compute_controller.script_dir }}/admin-openrc && openstack role add --project service --user nova admin
+  when: ret_check_role.rc != 0
+

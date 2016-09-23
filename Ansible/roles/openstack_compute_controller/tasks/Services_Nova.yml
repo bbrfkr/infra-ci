@@ -1,0 +1,13 @@
+---
+- name: Services_Nova
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+   - openstack-nova-api
+   - openstack-nova-consoleauth
+   - openstack-nova-scheduler
+   - openstack-nova-conductor
+   - openstack-nova-novncproxy
+

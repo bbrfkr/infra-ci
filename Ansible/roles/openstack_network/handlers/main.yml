@@ -1,6 +1,6 @@
 ---
 - name: reboot(reboot)
-  shell: shutdown -r
+  shell: shutdown -r +1
   changed_when: true
   failed_when: false
 

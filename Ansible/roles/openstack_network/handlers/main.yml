@@ -1,15 +1,15 @@
 ---
 - name: reboot(reboot)
-  shell: shutdown -r +1
+  shell: shutdown -r now
   changed_when: true
   failed_when: false
 
-- name: reboot(wait_ssh_port_down)
-  wait_for: >
-    host={{ inventory_hostname }}
-    port={{ ansible_ssh_port }}
-    state=stopped
-  delegate_to: 127.0.0.1
+#- name: reboot(wait_ssh_port_down)
+#  wait_for: >
+#    host={{ inventory_hostname }}
+#    port={{ ansible_ssh_port }}
+#    state=stopped
+#  delegate_to: 127.0.0.1
 
 - name: reboot(wait_ssh_port_up)
   wait_for: >

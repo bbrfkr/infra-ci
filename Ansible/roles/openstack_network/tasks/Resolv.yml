@@ -4,12 +4,9 @@
     src=resolv.conf.j2
     dest=/etc/resolv.conf
 
-- name: Resolv(check dhclient is disabled)
-  shell: grep "^PEERDNS=yes" /etc/sysconfig/network-scripts/ifcfg-{{ ansible_default_ipv4.alias }}
-  changed_when: false
-  failed_when: false
-  register: ret_dhclient
-
 - name: Resolv(disable dhclient)
-  shell: sed -i "s/^PEERDNS=yes/PEERDNS=no/g" /etc/sysconfig/network-scripts/ifcfg-{{ ansible_default_ipv4.alias }}
-  when: ret_dhclient.rc == 0
+  replace:
+    dest: /etc/sysconfig/network-scripts/ifcfg-{{ ansible_default_ipv4.alias }}
+    regexp: "^PEERDNS=yes"
+    replace: "PEERDNS=no"
+

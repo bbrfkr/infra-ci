@@ -16,6 +16,6 @@
     host={{ inventory_hostname }}
     port={{ ansible_ssh_port }}
     state=started
-    delay=90
+    delay=120
   delegate_to: 127.0.0.1
 

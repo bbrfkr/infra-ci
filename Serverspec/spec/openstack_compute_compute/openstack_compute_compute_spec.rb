@@ -24,7 +24,7 @@ describe ("openstack_compute_compute") do
 
   if property['openstack_compute_compute']['virt_support']
     describe ("check virtualization support feature is enabled") do
-      describe command("grep \"(vmx/svm)\" /proc/cpuinfo") do
+      describe command("grep \"\\(vmx\\|svm\\)\" /proc/cpuinfo") do
         its(:exit_status) { should eq 0 }
       end
     end

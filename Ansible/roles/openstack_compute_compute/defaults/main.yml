@@ -1,0 +1,6 @@
+---
+openstack_compute_compute:
+  mgmt_ip: 127.0.0.1
+  controller: controller
+  rabbitmq_pass: p@ssw0rd
+  nova_pass: p@ssw0rd

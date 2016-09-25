@@ -1,0 +1,6 @@
+---
+- name: Install_Packages
+  yum:
+    name: openstack-nova-compute
+    state: installed
+

@@ -4,18 +4,18 @@
   changed_when: true
   failed_when: false
 
-- name: reboot(wait_ssh_port_down)
-  wait_for: >
-    host={{ inventory_hostname }}
-    port=22
-    state=stopped
-  delegate_to: 127.0.0.1
+#- name: reboot(wait_ssh_port_down)
+#  wait_for: >
+#    host={{ inventory_hostname }}
+#    port={{ ansible_ssh_port }}
+#    state=stopped
+#  delegate_to: 127.0.0.1
 
 - name: reboot(wait_ssh_port_up)
   wait_for: >
     host={{ inventory_hostname }}
     port={{ ansible_ssh_port }}
     state=started
-    delay=30
+    delay=120
   delegate_to: 127.0.0.1
 

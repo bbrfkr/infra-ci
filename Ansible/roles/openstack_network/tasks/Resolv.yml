@@ -1,6 +1,12 @@
 ---
-- name: Resolv
+- name: Resolv(setting)
   template: >
     src=resolv.conf.j2
     dest=/etc/resolv.conf
+
+- name: Resolv(disable dhclient)
+  replace:
+    dest: /etc/sysconfig/network-scripts/ifcfg-{{ ansible_default_ipv4.alias }}
+    regexp: "^PEERDNS=yes"
+    replace: "PEERDNS=no"
 

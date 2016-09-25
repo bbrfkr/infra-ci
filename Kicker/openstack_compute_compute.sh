@@ -30,15 +30,15 @@ ansible-art apply openstack_glance inventories/openstack_glance -p host_vars_dir
 ansible-art apply openstack_compute_controller inventories/openstack_compute_controller -p host_vars_dir/openstack_compute_compute_01
 ansible-art apply openstack_compute_compute inventories/openstack_compute_compute -p host_vars_dir/openstack_compute_compute_02 -a "--extra-vars=\"ansible_port=2223\""
 
-exit 0
-
 ### Serverspec
 cd ../Serverspec
 rake -f Rakefiles/openstack_compute_compute spec
 RC=$?
 
 ### Vagrant(post)
-cd ../Vagrant/openstack_compute_compute
+cd ../Vagrant/openstack_compute_compute_01
+vagrant destroy -f
+cd ../openstack_compute_compute_02
 vagrant destroy -f
 
 exit $RC

@@ -1,0 +1,4 @@
+localhost:
+  openstack_compute_compute:
+    virt_support: off
+

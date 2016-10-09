@@ -1,5 +1,5 @@
 ---
-openstack_compute_controller:
+openstack_nova_controller:
   mariadb_pass: p@ssw0rd
   nova_dbpass: p@ssw0rd
   script_dir: /root/openrc_scripts

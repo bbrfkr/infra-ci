@@ -1,6 +1,6 @@
-require "openstack_compute_controller/spec_helper"
+require "openstack_nova_controller/spec_helper"
 
-describe ("openstack_compute_controller") do
+describe ("openstack_nova_controller") do
   describe ("check packages are installed") do
     packages = ["openstack-nova-api", "openstack-nova-conductor", \
                 "openstack-nova-console", "openstack-nova-novncproxy", \

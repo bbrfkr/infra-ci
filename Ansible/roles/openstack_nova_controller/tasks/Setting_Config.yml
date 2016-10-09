@@ -8,7 +8,7 @@
       enabled_apis = osapi_compute,metadata
       rpc_backend = rabbit
       auth_strategy = keystone
-      my_ip = {{ openstack_compute_controller.mgmt_ip }}
+      my_ip = {{ openstack_nova_controller.mgmt_ip }}
       use_neutron = True
       firewall_driver = nova.virt.firewall.NoopFirewallDriver
     state: present
@@ -17,14 +17,14 @@
   lineinfile:
     dest: /etc/nova/nova.conf
     insertafter: "^\\[api_database"
-    line: connection = mysql+pymysql://nova:{{ openstack_compute_controller.nova_dbpass }}@{{ openstack_compute_controller.controller }}/nova_api
+    line: connection = mysql+pymysql://nova:{{ openstack_nova_controller.nova_dbpass }}@{{ openstack_nova_controller.controller }}/nova_api
     state: present
 
 - name: Setting_Config(database)
   lineinfile:
     dest: /etc/nova/nova.conf
     insertafter: "^\\[database"
-    line: connection = mysql+pymysql://nova:{{ openstack_compute_controller.nova_dbpass }}@{{ openstack_compute_controller.controller }}/nova
+    line: connection = mysql+pymysql://nova:{{ openstack_nova_controller.nova_dbpass }}@{{ openstack_nova_controller.controller }}/nova
     state: present
 
 - name: Setting_Config(oslo_messaging_rabbit)
@@ -33,9 +33,9 @@
     insertafter: "^\\[oslo_messaging_rabbit"
     marker: "# {mark} ANSIBLE MANAGED BLOCK (oslo_messaging_rabbit)"
     block: |
-      rabbit_host = {{ openstack_compute_controller.controller }}
+      rabbit_host = {{ openstack_nova_controller.controller }}
       rabbit_userid = openstack
-      rabbit_password = {{ openstack_compute_controller.rabbitmq_pass }}
+      rabbit_password = {{ openstack_nova_controller.rabbitmq_pass }}
     state: present
 
 - name: Setting_Config(keystone_authtoken])
@@ -44,15 +44,15 @@
     insertafter: "^\\[keystone_authtoken"
     marker: "# {mark} ANSIBLE MANAGED BLOCK (keystone_authtoken)"
     block: |
-      auth_uri = http://{{ openstack_compute_controller.controller }}:5000
-      auth_url = http://{{ openstack_compute_controller.controller }}:35357
-      memcached_servers = {{ openstack_compute_controller.controller }}:11211
+      auth_uri = http://{{ openstack_nova_controller.controller }}:5000
+      auth_url = http://{{ openstack_nova_controller.controller }}:35357
+      memcached_servers = {{ openstack_nova_controller.controller }}:11211
       auth_type = password
       project_domain_name = default
       user_domain_name = default
       project_name = service
       username = nova
-      password = {{ openstack_compute_controller.nova_pass }}
+      password = {{ openstack_nova_controller.nova_pass }}
     state: present
 
 - name: Setting_Config(vnc)
@@ -69,7 +69,7 @@
   lineinfile:
     dest: /etc/nova/nova.conf
     insertafter: "^\\[glance"
-    line: api_servers = http://{{ openstack_compute_controller.controller }}:9292
+    line: api_servers = http://{{ openstack_nova_controller.controller }}:9292
     state: present
 
 - name: Setting_Config(oslo_concurrency)

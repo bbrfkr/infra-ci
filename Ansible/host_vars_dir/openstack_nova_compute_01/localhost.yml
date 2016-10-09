@@ -65,7 +65,7 @@ openstack_glance:
   controller: "{{ controller }}"
   region: "{{ region }}"
 
-openstack_compute_controller:
+openstack_nova_controller:
   mariadb_pass: "{{ all_password }}"
   nova_dbpass: "{{ all_password }}"
   script_dir: "{{ script_dir }}"

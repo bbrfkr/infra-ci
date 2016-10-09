@@ -1,6 +1,6 @@
-require "openstack_compute_compute/spec_helper"
+require "openstack_nova_compute/spec_helper"
 
-describe ("openstack_compute_compute") do
+describe ("openstack_nova_compute") do
   describe ("check packages are installed") do
     packages = ["openstack-nova-compute"]
 
@@ -22,7 +22,7 @@ describe ("openstack_compute_compute") do
     end
   end
 
-  if property['openstack_compute_compute']['virt_support']
+  if property['openstack_nova_compute']['virt_support']
     describe ("check virtualization support feature is enabled") do
       describe command("grep \"\\(vmx\\|svm\\)\" /proc/cpuinfo") do
         its(:exit_status) { should eq 0 }

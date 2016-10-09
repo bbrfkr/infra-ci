@@ -2,7 +2,7 @@ require 'rake'
 require 'rspec/core/rake_task'
 require 'yaml'
 
-hosts = YAML.load_file('inventories/openstack_compute_compute.yml')
+hosts = YAML.load_file('inventories/openstack_nova_compute.yml')
 
 desc "Run serverspec to all hosts"
 task :spec => 'spec:all'
@@ -16,7 +16,7 @@ namespace :spec do
       ENV['CONN_USER'] = host['conn_user']
       ENV['CONN_PASS'] = host['conn_pass']
       ENV['SSH_PORT'] = host['ssh_port']
-      t.pattern = 'spec/openstack_compute_compute/**/*_spec.rb'
+      t.pattern = 'spec/openstack_nova_compute/**/*_spec.rb'
     end
   end
 end

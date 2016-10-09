@@ -1,4 +1,4 @@
 localhost:
-  openstack_compute_compute:
+  openstack_nova_compute:
     virt_support: off
 

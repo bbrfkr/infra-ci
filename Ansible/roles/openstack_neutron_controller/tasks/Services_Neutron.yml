@@ -1,0 +1,12 @@
+---
+- name: Services_Nova
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+   - neutron-linuxbridge-agent
+   - neutron-dhcp-agent
+   - neutron-metadata-agent
+   - neutron-l3-agent
+

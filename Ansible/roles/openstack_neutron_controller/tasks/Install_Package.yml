@@ -1,0 +1,11 @@
+---
+- name: Install_Package.yml
+  yum: >
+    name={{ item }}
+    state=installed
+  with_items:
+    - openstack-neutron
+    - openstack-neutron-ml2
+    - openstack-neutron-linuxbridge
+    - ebtables 
+

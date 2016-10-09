@@ -1,0 +1,6 @@
+---
+- name: nova-api_restart
+  service:
+    name: openstack-nova-api
+    state: restarted
+

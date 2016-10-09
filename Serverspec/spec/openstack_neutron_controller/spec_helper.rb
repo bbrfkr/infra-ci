@@ -4,7 +4,7 @@ require 'yaml'
 
 set :backend, :ssh
 
-properties = YAML.load_file('properties/openstack_compute_controller.yml')
+properties = YAML.load_file('properties/openstack_neutron_controller.yml')
 host = ENV['CONN_HOST']
 set_property properties[host]
 

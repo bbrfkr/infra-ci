@@ -1,0 +1,16 @@
+---
+openstack_neutron_controller:
+  mariadb_pass: p@ssw0rd
+  neutron_dbpass: p@ssw0rd
+  script_dir: /root/openrc_scripts
+  neutron_pass: p@ssw0rd
+  domain: default
+  region: RegionOne
+  controller: localhost
+  rabbitmq_pass: p@ssw0rd
+  nova_pass: p@ssw0rd
+  provider_ifname: enp0s3
+  overlayif_ip: 127.0.0.1
+  metadata_secret: p@ssw0rd
+ 
+

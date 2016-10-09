@@ -32,7 +32,7 @@ openstack_ntp:
 
 openstack_packages:
 
-openstack_compute_compute:
+openstack_nova_compute:
   mgmt_ip: "{{ mgmt_ip }}"
   controller: "{{ controller }}"
   rabbitmq_pass: "{{ all_password }}"

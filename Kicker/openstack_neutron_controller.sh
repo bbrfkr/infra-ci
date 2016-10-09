@@ -23,9 +23,6 @@ cd ../Serverspec
 rake -f Rakefiles/openstack_neutron_controller spec
 RC=$?
 
-exit 0 
-
-
 ### Vagrant(post)
 cd ../Vagrant/openstack_neutron_controller
 vagrant destroy -f

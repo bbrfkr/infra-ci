@@ -1,0 +1,8 @@
+---
+- name: Create_Keydir
+  file: >
+    path=/var/ansible_keyfiles/openstack_neutron
+    owner=neutron
+    mode=755
+    state=directory
+

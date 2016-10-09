@@ -1,0 +1,6 @@
+---
+- name: Initialize_Neutron(neutron-db-manage)
+  shell: su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron && touch /var/ansible_keyfiles/openstack_neutron/neutron-db-manage
+  args:
+    creates: /var/ansible_keyfiles/openstack_neutron/neutron-db-manage
+

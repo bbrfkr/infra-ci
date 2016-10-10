@@ -1,0 +1,94 @@
+---
+hostname: controller
+all_password: p@ssw0rd
+controller: controller
+region: RegionOne
+domain: default
+script_dir: /root/openrc_scripts
+mgmt_ip: 192.168.33.10
+admin_token: 0123456789
+compute: compute
+provider_ifname: enp0s3
+
+openstack_network:
+  hosts_entries:
+    - name: "{{ controller }}"
+      ip: 192.168.33.10
+    - name: "{{ compute }}"
+      ip: 192.168.33.11
+  dns_servers:
+    - server: 8.8.8.8
+    - server: 8.8.4.4
+  hostname: "{{ hostname }}"
+
+openstack_ntp:
+  controller: "{{ controller }}"
+  controller_ntp_entry:
+    - 0.centos.pool.ntp.org
+    - 1.centos.pool.ntp.org
+    - 2.centos.pool.ntp.org
+    - 3.centos.pool.ntp.org
+  controller_allow_network:
+    - 192.168.33.0/24
+
+openstack_packages:
+
+openstack_mariadb:
+  mariadb_pass: "{{ all_password }}"
+  bind_address: "{{ mgmt_ip }}"
+
+openstack_rabbitmq:
+  rabbitmq_pass: "{{ all_password }}"
+
+openstack_memcached:
+
+openstack_keystone_install:
+  mariadb_pass: "{{ all_password }}"
+  keystone_dbpass: "{{ all_password }}"
+  admin_token: "{{ admin_token }}"
+  controller: "{{ controller }}"
+
+openstack_keystone_setup:
+  region: "{{ region }}"
+  admin_token: "{{ admin_token }}"
+  controller: "{{ controller }}"
+  domain: "{{ domain }}"
+  admin_pass: "{{ all_password }}"
+  demo_pass: "{{ all_password }}"
+  script_dir: "{{ script_dir }}"
+
+openstack_glance:
+  mariadb_pass: "{{ all_password }}"
+  glance_dbpass: "{{ all_password }}"
+  script_dir: "{{ script_dir }}"
+  domain: "{{ domain }}"
+  glance_pass: "{{ all_password}}"
+  controller: "{{ controller }}"
+  region: "{{ region }}"
+
+openstack_nova_controller:
+  mariadb_pass: "{{ all_password }}"
+  nova_dbpass: "{{ all_password }}"
+  script_dir: "{{ script_dir }}"
+  domain: "{{ domain }}"
+  nova_pass: "{{ all_password }}"
+  region: "{{ region }}"
+  controller: "{{ controller }}"
+  mgmt_ip: "{{ mgmt_ip }}"
+  rabbitmq_pass: "{{ all_password }}"
+
+openstack_neutron_controller:
+  mariadb_pass: "{{ all_password }}"
+  neutron_dbpass: "{{ all_password }}"
+  script_dir: /root/openrc_scripts
+  neutron_pass: "{{ all_password }}"
+  domain: "{{ domain }}"
+  region: "{{ region }}"
+  controller: "{{ controller }}"
+  rabbitmq_pass: "{{ all_password }}"
+  nova_pass: "{{ all_password }}"
+  provider_ifname: "{{ provider_ifname }}"
+  overlayif_ip: "{{ mgmt_ip }}"
+  metadata_secret: "{{ all_password }}"
+ 
+

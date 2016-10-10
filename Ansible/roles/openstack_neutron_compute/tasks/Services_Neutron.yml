@@ -1,0 +1,7 @@
+---
+- name: Services_Neutron
+  service:
+    name: neutron-linuxbridge-agent
+    state: started
+    enabled: yes
+

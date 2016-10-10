@@ -1,0 +1,4 @@
+---
+- include: Install_Packages.yml
+- include: Setting_Config.yml
+- include: Services_Nova.yml

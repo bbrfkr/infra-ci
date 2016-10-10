@@ -1,0 +1,68 @@
+---
+- name: Setting_Config(DEFAULT)
+  blockinfile:
+    dest: /etc/nova/nova.conf
+    insertafter: "^\\[DEFAULT"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (DEFAULT)"
+    block: |
+      rpc_backend = rabbit
+      auth_strategy = keystone
+      my_ip = {{ openstack_nova_compute.mgmt_ip }}
+      use_neutron = True
+      firewall_driver = nova.virt.firewall.NoopFirewallDriver
+    state: present
+
+- name: Setting_Config(oslo_messaging_rabbit)
+  blockinfile:
+    dest: /etc/nova/nova.conf
+    insertafter: "^\\[oslo_messaging_rabbit"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (oslo_messaging_rabbit)"
+    block: |
+      rabbit_host = {{ openstack_nova_compute.controller }}
+      rabbit_userid = openstack
+      rabbit_password = {{ openstack_nova_compute.rabbitmq_pass }}
+    state: present
+
+- name: Setting_Config(keystone_authtoken)
+  blockinfile:
+    dest: /etc/nova/nova.conf
+    insertafter: "^\\[keystone_authtoken"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (keystone_authtoken)"
+    block: |
+      auth_uri = http://{{ openstack_nova_compute.controller }}:5000
+      auth_url = http://{{ openstack_nova_compute.controller }}:35357
+      memcached_servers = {{ openstack_nova_compute.controller }}:11211
+      auth_type = password
+      project_domain_name = default
+      user_domain_name = default
+      project_name = service
+      username = nova
+      password = {{ openstack_nova_compute.nova_pass }}
+    state: present
+
+- name: Setting_Config(vnc)
+  blockinfile:
+    dest: /etc/nova/nova.conf
+    insertafter: "^\\[vnc"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (vnc)"
+    block: |
+      enabled = True
+      vncserver_listen = 0.0.0.0
+      vncserver_proxyclient_address = $my_ip
+      novncproxy_base_url = http://{{ openstack_nova_compute.controller }}:6080/vnc_auto.html
+    state: present
+
+- name: Setting_Config(glance)
+  lineinfile:
+    dest: /etc/nova/nova.conf
+    insertafter: "^\\[glance"
+    line: api_servers = http://{{ openstack_nova_compute.controller }}:9292
+    state: present
+
+- name: Setting_Config(oslo_concurrency)
+  lineinfile:
+    dest: /etc/nova/nova.conf
+    insertafter: "^\\[oslo_concurrency"
+    line: lock_path = /var/lib/nova/tmp
+    state: present
+

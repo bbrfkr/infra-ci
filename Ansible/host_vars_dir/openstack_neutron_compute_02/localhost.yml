@@ -1,0 +1,39 @@
+---
+hostname: compute
+all_password: p@ssw0rd
+controller: controller
+region: RegionOne
+domain: default
+script_dir: /root/openrc_scripts
+mgmt_ip: 192.168.33.11
+admin_token: 0123456789
+compute: compute
+
+openstack_network:
+  hosts_entries:
+    - name: "{{ controller }}"
+      ip: 192.168.33.10
+    - name: "{{ compute }}"
+      ip: 192.168.33.11
+  dns_servers:
+    - server: 8.8.8.8
+    - server: 8.8.4.4
+  hostname: "{{ hostname }}"
+
+openstack_ntp:
+  controller: "{{ controller }}"
+  controller_ntp_entry:
+    - 0.centos.pool.ntp.org
+    - 1.centos.pool.ntp.org
+    - 2.centos.pool.ntp.org
+    - 3.centos.pool.ntp.org
+  controller_allow_network:
+    - 192.168.33.0/24
+
+openstack_packages:
+
+openstack_nova_compute:
+  mgmt_ip: "{{ mgmt_ip }}"
+  controller: "{{ controller }}"
+  rabbitmq_pass: "{{ all_password }}"
+  nova_pass: "{{ all_password }}"

@@ -3,7 +3,7 @@
   blockinfile:
     dest: /etc/neutron/neutron.conf
     insertafter: "^\\[DEFAULT"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (DEFAULT)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller DEFAULT)"
     block: |
       core_plugin = ml2
       service_plugins = router
@@ -18,7 +18,7 @@
   blockinfile:
     dest: /etc/neutron/neutron.conf
     insertafter: "^\\[database"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (database)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller database)"
     block: |
       connection = mysql+pymysql://neutron:{{ openstack_neutron_controller.neutron_dbpass }}@{{ openstack_neutron_controller.controller }}/neutron
     state: present
@@ -27,7 +27,7 @@
   blockinfile:
     dest: /etc/neutron/neutron.conf
     insertafter: "^\\[oslo_messaging_rabbit"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (oslo_messaging_rabbit)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller oslo_messaging_rabbit)"
     block: |
       rabbit_host = {{ openstack_neutron_controller.controller }}
       rabbit_userid = openstack
@@ -38,7 +38,7 @@
   blockinfile:
     dest: /etc/neutron/neutron.conf
     insertafter: "^\\[keystone_authtoken"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (keystone_authtoken)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller keystone_authtoken)"
     block: |
       auth_uri = http://{{ openstack_neutron_controller.controller }}:5000
       auth_url = http://{{ openstack_neutron_controller.controller }}:35357
@@ -55,7 +55,7 @@
   blockinfile:
     dest: /etc/neutron/neutron.conf
     insertafter: "^\\[nova"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (nova)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller nova)"
     block: |
       auth_url = http://{{ openstack_neutron_controller.controller }}:35357
       auth_type = password
@@ -71,7 +71,7 @@
   blockinfile:
     dest: /etc/neutron/neutron.conf
     insertafter: "^\\[oslo_concurrency"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (oslo_concurrency)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller oslo_concurrency)"
     block: |
       lock_path = /var/lib/neutron/tmp
     state: present
@@ -80,7 +80,7 @@
   blockinfile:
     dest: /etc/neutron/plugins/ml2/ml2_conf.ini
     insertafter: "^\\[ml2"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (ml2)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller ml2)"
     block: |
       type_drivers = flat,vlan,vxlan
       tenant_network_types = vxlan
@@ -92,7 +92,7 @@
   blockinfile:
     dest: /etc/neutron/plugins/ml2/ml2_conf.ini
     insertafter: "^\\[ml2_type_flat"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (ml2_type_flat)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller ml2_type_flat)"
     block: |
       flat_networks = provider
     state: present
@@ -101,7 +101,7 @@
   blockinfile:
     dest: /etc/neutron/plugins/ml2/ml2_conf.ini
     insertafter: "^\\[ml2_type_vxlan"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (ml2_type_vxlan)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller ml2_type_vxlan)"
     block: |
       vni_ranges = 1:1000
     state: present
@@ -110,7 +110,7 @@
   blockinfile:
     dest: /etc/neutron/plugins/ml2/ml2_conf.ini
     insertafter: "^\\[securitygroup"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (securitygroup)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller securitygroup)"
     block: |
       enable_ipset = True
     state: present
@@ -119,7 +119,7 @@
   blockinfile:
     dest: /etc/neutron/plugins/ml2/linuxbridge_agent.ini
     insertafter: "^\\[linux_bridge"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (linux_bridge)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller linux_bridge)"
     block: |
       physical_interface_mappings = provider:{{ openstack_neutron_controller.provider_ifname }}
     state: present
@@ -128,7 +128,7 @@
   blockinfile:
     dest: /etc/neutron/plugins/ml2/linuxbridge_agent.ini
     insertafter: "^\\[vxlan"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (vxlan)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller vxlan)"
     block: |
       enable_vxlan = True
       local_ip = {{ openstack_neutron_controller.overlayif_ip }}
@@ -139,7 +139,7 @@
   blockinfile:
     dest: /etc/neutron/plugins/ml2/linuxbridge_agent.ini
     insertafter: "^\\[securitygroup"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (securitygroup)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller securitygroup)"
     block: |
       enable_security_group = True
       firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
@@ -149,7 +149,7 @@
   blockinfile:
     dest: /etc/neutron/l3_agent.ini
     insertafter: "^\\[DEFAULT"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (DEFAULT)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller DEFAULT)"
     block: |
       interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver
       external_network_bridge =
@@ -159,7 +159,7 @@
   blockinfile:
     dest: /etc/neutron/dhcp_agent.ini
     insertafter: "^\\[DEFAULT"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (DEFAULT)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller DEFAULT)"
     block: |
       interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver
       dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq
@@ -170,7 +170,7 @@
   blockinfile:
     dest: /etc/neutron/metadata_agent.ini
     insertafter: "^\\[DEFAULT"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (DEFAULT)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller DEFAULT)"
     block: |
       nova_metadata_ip = {{ openstack_neutron_controller.controller }}
       metadata_proxy_shared_secret = {{ openstack_neutron_controller.metadata_secret }}
@@ -180,7 +180,7 @@
   blockinfile:
     dest: /etc/nova/nova.conf
     insertafter: "^\\["
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (neutron)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller neutron)"
     block: |
       url = http://{{ openstack_neutron_controller.controller }}:9696
       auth_url = http://{{ openstack_neutron_controller.controller }}:35357

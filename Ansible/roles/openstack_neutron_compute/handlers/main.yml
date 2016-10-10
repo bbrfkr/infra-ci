@@ -1,0 +1,6 @@
+---
+- name: restart_nova-compute
+  service:
+    name: openstack-nova-compute
+    state: restarted
+

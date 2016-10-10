@@ -3,7 +3,7 @@
   blockinfile:
     dest: /etc/nova/nova.conf
     insertafter: "^\\[DEFAULT"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (DEFAULT)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_nova_compute DEFAULT)"
     block: |
       rpc_backend = rabbit
       auth_strategy = keystone
@@ -16,7 +16,7 @@
   blockinfile:
     dest: /etc/nova/nova.conf
     insertafter: "^\\[oslo_messaging_rabbit"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (oslo_messaging_rabbit)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_nova_compute oslo_messaging_rabbit)"
     block: |
       rabbit_host = {{ openstack_nova_compute.controller }}
       rabbit_userid = openstack
@@ -27,7 +27,7 @@
   blockinfile:
     dest: /etc/nova/nova.conf
     insertafter: "^\\[keystone_authtoken"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (keystone_authtoken)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_nova_compute keystone_authtoken)"
     block: |
       auth_uri = http://{{ openstack_nova_compute.controller }}:5000
       auth_url = http://{{ openstack_nova_compute.controller }}:35357
@@ -44,7 +44,7 @@
   blockinfile:
     dest: /etc/nova/nova.conf
     insertafter: "^\\[vnc"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (vnc)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_nova_compute vnc)"
     block: |
       enabled = True
       vncserver_listen = 0.0.0.0

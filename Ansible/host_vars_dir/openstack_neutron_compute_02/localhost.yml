@@ -8,6 +8,7 @@ script_dir: /root/openrc_scripts
 mgmt_ip: 192.168.33.11
 admin_token: 0123456789
 compute: compute
+provider_ifname: enp0s3
 
 openstack_network:
   hosts_entries:
@@ -37,3 +38,13 @@ openstack_nova_compute:
   controller: "{{ controller }}"
   rabbitmq_pass: "{{ all_password }}"
   nova_pass: "{{ all_password }}"
+
+openstack_neutron_compute:
+  controller: "{{ controller }}"
+  rabbitmq_pass: "{{ all_password }}"
+  domain: "{{ domain }}"
+  neutron_pass: "{{ all_password }}"
+  provider_ifname: "{{ provider_ifname }}"
+  overlayif_ip: "{{ mgmt_ip }}"
+  region: "{{ region }}"
+

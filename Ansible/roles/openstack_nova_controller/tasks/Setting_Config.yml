@@ -3,7 +3,7 @@
   blockinfile:
     dest: /etc/nova/nova.conf
     insertafter: "^\\[DEFAULT"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (DEFAULT)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_nova_controller DEFAULT)"
     block: |
       enabled_apis = osapi_compute,metadata
       rpc_backend = rabbit
@@ -31,7 +31,7 @@
   blockinfile:
     dest: /etc/nova/nova.conf
     insertafter: "^\\[oslo_messaging_rabbit"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (oslo_messaging_rabbit)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_nova_controller oslo_messaging_rabbit)"
     block: |
       rabbit_host = {{ openstack_nova_controller.controller }}
       rabbit_userid = openstack
@@ -42,7 +42,7 @@
   blockinfile:
     dest: /etc/nova/nova.conf
     insertafter: "^\\[keystone_authtoken"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (keystone_authtoken)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_nova_controller keystone_authtoken)"
     block: |
       auth_uri = http://{{ openstack_nova_controller.controller }}:5000
       auth_url = http://{{ openstack_nova_controller.controller }}:35357
@@ -59,7 +59,7 @@
   blockinfile:
     dest: /etc/nova/nova.conf
     insertafter: "^\\[vnc"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (vnc)"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_nova_controller vnc)"
     block: |
       vncserver_listen = $my_ip
       vncserver_proxyclient_address = $my_ip

@@ -1,0 +1,10 @@
+---
+openstack_neutron_compute:
+  controller: controller
+  rabbitmq_pass: p@ssw0rd
+  domain: default
+  neutron_pass: p@ssw0rd
+  provider_ifname: enp0s3
+  overlayif_ip: 127.0.0.1
+  region: RegionOne
+

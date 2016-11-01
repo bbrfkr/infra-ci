@@ -1,0 +1,124 @@
+---
+- name: Setting_Config(local_settings OPENSTACK_HOST)
+  lineinfile:
+    dest: /etc/openstack-dashboard/local_settings
+    line: OPENSTACK_HOST = "{{ openstack_horizon.controller }}"
+    regexp: "OPENSTACK_HOST = .*"
+    state: present
+  notify:
+    - restart_httpd
+    - restart_memcached
+
+- name: Setting_Config(local_settings ALLOWED_HOSTS)
+  lineinfile:
+    dest: /etc/openstack-dashboard/local_settings
+    line: ALLOWED_HOSTS = ['*', ]
+    regexp: "ALLOWED_HOSTS = .*"
+    state: present
+  notify:
+    - restart_httpd
+    - restart_memcached
+
+- name: Setting_Config(check_01 local_setting CACHES)
+  shell: grep -e "^SESSION_ENGINE = .*" /etc/openstack-dashboard/local_settings
+  changed_when: false
+  failed_when: false
+  register: ret_chk_01
+
+- name: Setting_Config(check_02 local_setting CACHES)
+  shell: grep -e "^CACHES = {" /etc/openstack-dashboard/local_settings
+  changed_when: false
+  failed_when: false
+  register: ret_chk_02
+
+- name: Setting_Config(local_setting CACHES_01)
+  shell: sed -i -e "/^CACHES = {/,/^}/d" /etc/openstack-dashboard/local_settings
+  when:
+   - ret_chk_01.rc != 0
+   - ret_chk_02.rc == 0
+
+- name: Setting_Config(local_settings CACHES_02)
+  blockinfile:
+    dest: /etc/openstack-dashboard/local_settings
+    block: |
+      SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+      
+      CACHES = {
+          'default': {
+               'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+               'LOCATION': '{{ openstack_horizon.controller }}:11211',
+          }
+      }
+    insertbefore: "# Send email to the console by default" 
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_horizon CACHES)"
+    state: present
+  notify:
+    - restart_httpd
+    - restart_memcached
+
+- name: Setting_Config(local_settings OPENSTACK_KEYSTONE_URL)
+  lineinfile:
+    dest: /etc/openstack-dashboard/local_settings
+    line: OPENSTACK_KEYSTONE_URL = "http://%s:5000/v3" % OPENSTACK_HOST
+    regexp: "^OPENSTACK_KEYSTONE_URL = .*"
+    state: present
+  notify:
+    - restart_httpd
+    - restart_memcached
+
+- name: Setting_Config(local_settings OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT)
+  lineinfile:
+    dest: /etc/openstack-dashboard/local_settings
+    line: OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True
+    insertafter: "#OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = .*"
+    state: present
+  notify:
+    - restart_httpd
+    - restart_memcached
+
+- name: Setting_Config(local_settings OPENSTACK_API_VERSIONS)
+  blockinfile:
+    dest: /etc/openstack-dashboard/local_settings
+    block: |
+      OPENSTACK_API_VERSIONS = {
+          "identity": 3,
+          "image": 2,
+          "volume": 2,
+      }
+    insertbefore: "# Set this to True if running on multi-domain model. When this is enabled, it"
+    marker:  "# {mark} ANSIBLE MANAGED BLOCK (openstack_horizon OPENSTACK_API_VERSIONS)"
+    state: present
+  notify:
+    - restart_httpd
+    - restart_memcached
+
+- name: Setting_Config(local_settings OPENSTACK_KEYSTONE_DEFAULT_DOMAIN)
+  lineinfile:
+    dest: /etc/openstack-dashboard/local_settings
+    line: OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = "{{ openstack_horizon.default_domain }}"
+    insertafter: "#OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = .*"
+    state: present
+  notify:
+    - restart_httpd
+    - restart_memcached
+
+- name: Setting_Config(local_settings OPENSTACK_KEYSTONE_DEFAULT_ROLE)
+  lineinfile:
+    dest: /etc/openstack-dashboard/local_settings
+    line: OPENSTACK_KEYSTONE_DEFAULT_ROLE = "{{ openstack_horizon.default_role }}"
+    regexp: "OPENSTACK_KEYSTONE_DEFAULT_ROLE = .*"
+    state: present
+  notify:
+    - restart_httpd
+    - restart_memcached
+
+- name: Setting_Config(local_settings TIME_ZONE)
+  lineinfile:
+    dest: /etc/openstack-dashboard/local_settings
+    line: TIME_ZONE = "{{ openstack_horizon.timezone }}"
+    regexp: "TIME_ZONE = .*"
+    state: present
+  notify:
+    - restart_httpd
+    - restart_memcached
+

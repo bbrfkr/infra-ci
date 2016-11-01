@@ -1,0 +1,11 @@
+---
+- name: restart_httpd
+  service:
+    name: httpd
+    state: restarted
+
+- name: restart_memcached
+  service:
+    name: memcached
+    state: restarted
+

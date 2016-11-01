@@ -1,0 +1,7 @@
+---
+openstack_horizon:
+  controller: localhost
+  default_domain: default
+  default_role: user
+  timezone: Asia/Tokyo
+

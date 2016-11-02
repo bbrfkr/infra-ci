@@ -5,4 +5,5 @@
 - include: Create_Endpoint.yml
 - include: Install_Package.yml
 - include: Setting_Config.yml
+- include: Services_Glance.yml
 

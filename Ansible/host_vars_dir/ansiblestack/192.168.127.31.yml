@@ -1,0 +1,41 @@
+---
+all_password: password
+controller: controller
+mgmt_ip: 192.168.127.31
+region: RegionOne
+domain: default
+script_dir: /root/openrc_scripts
+provider_ifname: ens160
+
+openstack_network:
+  hosts_entries:
+    - name: controller
+      ip: 192.168.127.30
+    - name: compute01
+      ip: 192.168.127.31
+    - name: compute02
+      ip: 192.168.127.32
+  dns_servers: []
+  hostname: compute01
+
+openstack_ntp:
+  controller: "{{ controller }}"
+  controller_ntp_entry:
+    - "{{ controller }}"
+
+openstack_nova_compute:
+  mgmt_ip: "{{ mgmt_ip }}"
+  controller: "{{ controller }}"
+  rabbitmq_pass: "{{ all_password }}"
+  nova_pass: "{{ all_password }}"
+
+openstack_neutron_compute:
+  controller: "{{ controller }}"
+  rabbitmq_pass: "{{ all_password }}"
+  domain: "{{ domain }}"
+  neutron_pass: "{{ all_password }}"
+  provider_ifname: "{{ provider_ifname }}"
+  overlayif_ip: "{{ mgmt_ip }}"
+  region: "{{ region }}"
+
+

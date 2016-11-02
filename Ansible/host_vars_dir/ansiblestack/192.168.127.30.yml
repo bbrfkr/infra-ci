@@ -1,0 +1,89 @@
+---
+all_password: password
+controller: controller
+mgmt_ip: 192.168.127.30
+region: RegionOne
+domain: default
+script_dir: /root/openrc_scripts
+provider_ifname: ens160
+
+openstack_network:
+  hosts_entries:
+    - name: controller
+      ip: 192.168.127.30
+    - name: compute01
+      ip: 192.168.127.31
+    - name: compute02
+      ip: 192.168.127.32
+  dns_servers: []
+  hostname: controller
+
+openstack_ntp:
+  controller: "{{ controller }}"
+  controller_ntp_entry:
+    - 192.168.127.3
+  controller_allow_network:
+    - 192.168.127.0/24
+
+openstack_mariadb:
+  mariadb_pass: "{{ all_password }}"
+  bind_address: "{{ mgmt_ip }}"
+
+openstack_rabbitmq:
+  rabbitmq_pass: "{{ all_password }}"
+
+openstack_keystone_install:
+  mariadb_pass: "{{ all_password }}"
+  keystone_dbpass: "{{ all_password }}"
+  admin_token: "{{ all_password }}"
+  controller: "{{ controller }}"
+
+openstack_keystone_setup:
+  region: "{{ region }}"
+  admin_token: "{{ all_password }}"
+  controller: "{{ controller }}"
+  domain: "{{ domain }}"
+  admin_pass: "{{ all_password }}"
+  demo_pass: "{{ all_password }}"
+  script_dir: "{{ scirpt_dir }}"
+
+openstack_glance:
+  mariadb_pass: "{{ all_password }}"
+  glance_dbpass: "{{ all_password }}"
+  script_dir: "{{ scirpt_dir }}"
+  domain: "{{ domain }}"
+  glance_pass: "{{ all_password }}"
+  controller: "{{ controller }}"
+  region: "{{ region }}"
+
+openstack_nova_controller:
+  mariadb_pass: "{{ all_password }}"
+  nova_dbpass: "{{ all_password }}"
+  script_dir: "{{ scirpt_dir }}"
+  domain: "{{ domain }}"
+  nova_pass: "{{ all_password }}"
+  region: "{{ region }}"
+  controller: "{{ controller }}"
+  mgmt_ip: "{{ mgmt_ip }}"
+  rabbitmq_pass: "{{ all_password }}"
+
+openstack_neutron_controller:
+  mariadb_pass: "{{ all_password }}"
+  neutron_dbpass: "{{ all_password }}"
+  script_dir: "{{ scirpt_dir }}"
+  neutron_pass: "{{ all_password }}"
+  domain: "{{ domain }}"
+  region: "{{ region }}"
+  controller: "{{ controller }}"
+  rabbitmq_pass: "{{ all_password }}"
+  nova_pass: "{{ all_password }}"
+  provider_ifname: "{{ provider_ifname }}"
+  overlayif_ip: "{{ mgmt_ip }}"
+  metadata_secret: "{{ all_password }}"
+ 
+openstack_horizon:
+  controller: "{{ controller }}"
+  default_domain: "{{ domain }}"
+  default_role: user
+  timezone: Asia/Tokyo
+

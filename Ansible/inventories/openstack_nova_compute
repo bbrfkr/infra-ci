@@ -1,1 +1,2 @@
-localhost ansible_user=root ansible_password=password ansible_ssh_port=2222
+192.168.127.31 ansible_user=root ansible_password=password ansible_ssh_port=22
+192.168.127.32 ansible_user=root ansible_password=password ansible_ssh_port=22

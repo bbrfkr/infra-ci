@@ -1,10 +1,11 @@
 ---
-- name: Services_Nova
+- name: Services_Neutron
   service:
     name: "{{ item }}"
     state: started
     enabled: yes
   with_items:
+   - neutron-server
    - neutron-linuxbridge-agent
    - neutron-dhcp-agent
    - neutron-metadata-agent

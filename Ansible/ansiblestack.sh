@@ -7,7 +7,7 @@ ansible-art apply openstack_mariadb inventories/openstack_mariadb -p host_vars_d
 ansible-art apply openstack_rabbitmq inventories/openstack_rabbitmq -p host_vars_dir/ansiblestack
 ansible-art apply openstack_memcached inventories/openstack_memcached -p host_vars_dir/ansiblestack
 ansible-art apply openstack_keystone_install inventories/openstack_keystone_install -p host_vars_dir/ansiblestack
-ansible-art apply openstack_keystone_setting inventories/openstack_keystone_setting -p host_vars_dir/ansiblestack
+ansible-art apply openstack_keystone_setup inventories/openstack_keystone_setup -p host_vars_dir/ansiblestack
 ansible-art apply openstack_glance inventories/openstack_glance -p host_vars_dir/ansiblestack
 ansible-art apply openstack_nova_controller inventories/openstack_nova_controller -p host_vars_dir/ansiblestack
 ansible-art apply openstack_nova_compute inventories/openstack_nova_compute -p host_vars_dir/ansiblestack

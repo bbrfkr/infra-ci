@@ -45,12 +45,12 @@ openstack_keystone_setup:
   domain: "{{ domain }}"
   admin_pass: "{{ all_password }}"
   demo_pass: "{{ all_password }}"
-  script_dir: "{{ scirpt_dir }}"
+  script_dir: "{{ script_dir }}"
 
 openstack_glance:
   mariadb_pass: "{{ all_password }}"
   glance_dbpass: "{{ all_password }}"
-  script_dir: "{{ scirpt_dir }}"
+  script_dir: "{{ script_dir }}"
   domain: "{{ domain }}"
   glance_pass: "{{ all_password }}"
   controller: "{{ controller }}"
@@ -59,7 +59,7 @@ openstack_glance:
 openstack_nova_controller:
   mariadb_pass: "{{ all_password }}"
   nova_dbpass: "{{ all_password }}"
-  script_dir: "{{ scirpt_dir }}"
+  script_dir: "{{ script_dir }}"
   domain: "{{ domain }}"
   nova_pass: "{{ all_password }}"
   region: "{{ region }}"
@@ -70,7 +70,7 @@ openstack_nova_controller:
 openstack_neutron_controller:
   mariadb_pass: "{{ all_password }}"
   neutron_dbpass: "{{ all_password }}"
-  script_dir: "{{ scirpt_dir }}"
+  script_dir: "{{ script_dir }}"
   neutron_pass: "{{ all_password }}"
   domain: "{{ domain }}"
   region: "{{ region }}"

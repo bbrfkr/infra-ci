@@ -1,0 +1,6 @@
+---
+- name: Initialize_Neutron(neutron-db-manage)
+  shell: su -s /bin/sh -c "glance-manage db_sync" glance && touch /var/ansible_keyfiles/openstack_glance/db_sync
+  args:
+    creates: /var/ansible_keyfiles/openstack_glance/db_sync
+

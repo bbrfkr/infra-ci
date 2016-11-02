@@ -10,6 +10,7 @@
   blockinfile:
     dest: /etc/glance/glance-api.conf
     insertafter: "^\\[keystone_authtoken"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_glance keystone_authtoken)"
     block: |
       auth_uri = http://{{ openstack_glance.controller }}:5000
       auth_url = http://{{ openstack_glance.controller }}:35357
@@ -25,6 +26,48 @@
 - name: Setting_Config(api03)
   lineinfile: >
     dest=/etc/glance/glance-api.conf
+    insertafter="^\[paste_deploy"
+    line="flavor = keystone"
+    state=present
+
+- name: Setting_Config(api04)
+  blockinfile:
+    dest: /etc/glance/glance-api.conf
+    insertafter: "^\\[glance_store"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_glance glance_store)"
+    block: |
+      stores = file,http
+      default_store = file
+      filesystem_store_datadir = /var/lib/glance/images/
+    state: present
+
+- name: Setting_Config(registry01)
+  lineinfile: >
+    dest=/etc/glance/glance-registry.conf
+    insertafter="^\[database"
+    line="connection = mysql+pymysql://glance:{{ openstack_glance.glance_dbpass }}@{{ openstack_glance.controller }}/glance"
+    state=present
+
+- name: Setting_Config(registry02)
+  blockinfile:
+    dest: /etc/glance/glance-registry.conf
+    insertafter: "^\\[keystone_authtoken"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_glance keystone_authtoken)"
+    block: |
+      auth_uri = http://{{ openstack_glance.controller }}:5000
+      auth_url = http://{{ openstack_glance.controller }}:35357
+      memcached_servers = {{ openstack_glance.controller }}:11211
+      auth_type = password
+      project_domain_name = default
+      user_domain_name = default
+      project_name = service
+      username = glance
+      password = {{ openstack_glance.glance_pass }}
+    state: present
+
+- name: Setting_Config(registry03)
+  lineinfile: >
+    dest=/etc/glance/glance-registry.conf
     insertafter="^\[paste_deploy"
     line="flavor = keystone"
     state=present

@@ -1,0 +1,8 @@
+---
+- name: Create_Keydir
+  file: >
+    path=/var/ansible_keyfiles/openstack_glance
+    owner=glance
+    mode=755
+    state=directory
+

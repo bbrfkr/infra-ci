@@ -1,0 +1,31 @@
+---
+- name: CreateProviderNW(check net)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron net-list | grep provider
+  changed_when: false
+  failed_when: false
+  register: ret_chk
+
+- name: CreateProviderNW(create net)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron net-create --shared --provider:physical_network provider --provider:network_type flat provider
+  when: ret_chk.rc != 0
+
+- name: CreateProviderNW(check subnet)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron subnet-list | grep provider
+  changed_when: false
+  failed_when: false
+  register: ret_chk
+
+- name: CreateProviderNW(create subnet)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron subnet-create --name provider --allocation-pool start={{ openstack_initial_setup.provider_network.start_ip }},end={{ openstack_initial_setup.provider_network.end_ip }} --gateway {{ openstack_initial_setup.provider_network.gateway }} provider {{ openstack_initial_setup.provider_network.network_addr }}
+  when: ret_chk.rc != 0
+
+- name: CreateProviderNW(check external setting)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron net-show provider | grep "router:external .* True"
+  changed_when: false
+  failed_when: false
+  register: ret_chk
+
+- name: CreateProviderNW(update external setting)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron net-update provider --router:external
+  when: ret_chk.rc != 0
+

@@ -1,0 +1,20 @@
+---
+- name: ModifySecurityGRP(check rule of icmp)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && openstack security group rule list default | grep icmp
+  changed_when: false
+  failed_when: false
+  register: ret_chk
+
+- name: ModifySecurityGRP(create rule of icmp)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && openstack security group rule create --proto icmp default
+  when: ret_chk.rc != 0
+
+- name: ModifySecurityGRP(check rule of icmp)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && openstack security group rule list default | grep 22:22
+  changed_when: false
+  failed_when: false
+  register: ret_chk
+
+- name: ModifySecurityGRP(create rule of icmp)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && openstack security group rule create --proto tcp --dst-port 22 default
+  when: ret_chk.rc != 0

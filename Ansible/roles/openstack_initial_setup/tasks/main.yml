@@ -1,0 +1,8 @@
+---
+- include: UploadImage.yml
+- include: CreateProviderNW.yml
+- include: CreateSelfServiceNW.yml
+- include: ModifySecurityGRP.yml
+- include: CreateKeyPair.yml
+- include: CreateInstance.yml
+

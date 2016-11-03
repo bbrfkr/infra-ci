@@ -1,0 +1,50 @@
+---
+- name: CreateSelfServiceNW(check net)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron net-list | grep selfservice
+  changed_when: false
+  failed_when: false
+  register: ret_chk
+
+- name: CreateSelfServiceNW(create net)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron net-create selfservice
+  when: ret_chk.rc != 0
+
+- name: CreateSelfServiceNW(check subnet)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron subnet-list | grep selfservice
+  changed_when: false
+  failed_when: false
+  register: ret_chk
+
+- name: CreateSelfServiceNW(create subnet)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron subnet-create --name selfservice --gateway {{ openstack_initial_setup.selfservice_network.gateway }} selfservice {{ openstack_initial_setup.selfservice_network.network_addr }}
+  when: ret_chk.rc != 0
+
+- name: CreateSelfServiceNW(check router)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron router-list | grep router
+  changed_when: false
+  failed_when: false
+  register: ret_chk
+
+- name: CreateSelfServiceNW(create router)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron router-create router
+  when: ret_chk.rc != 0
+
+- name: CreateSelfServiceNW(check selfservice port of router)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron router-port-list router | grep `neutron subnet-list | grep selfservice | awk '{ print $2 }'`
+  changed_when: false
+  failed_when: false
+  register: ret_chk
+
+- name: CreateSelfServiceNW(create selfservice port of router)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron router-interface-add router selfservice 
+  when: ret_chk.rc != 0
+
+- name: CreateSelfServiceNW(check selfservice port of router)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron router-port-list router | grep `neutron subnet-list | grep provider | awk '{ print $2 }'`
+  changed_when: false
+  failed_when: false
+  register: ret_chk
+
+- name: CreateSelfServiceNW(create provider port of router)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && neutron router-gateway-set router provider
+  when: ret_chk.rc != 0

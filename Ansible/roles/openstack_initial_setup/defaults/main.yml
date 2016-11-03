@@ -1,0 +1,20 @@
+---
+openstack_initial_setup:
+  script_dir: /root/openrc_scripts
+  image:
+    file: /root/CentOS-7-x86_64-GenericCloud-1503.qcow2
+    name: centos7
+  provider_network:
+    network_addr: 192.168.0.0/24
+    start_ip: 192.168.0.1
+    end_ip: 192.168.0.254
+    gateway: 192.168.0.1
+  selfservice_network:
+    network_addr: 192.168.1.0/24
+    gateway: 192.168.1.1
+  keypair:
+    name: mykey
+    pubkey: /root/.ssh/id_rsa.pub
+  instance:
+    name: testcent7
+    flavor: m1.small

@@ -1,0 +1,11 @@
+---
+- name: CreateInstance(check)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && openstack server list | grep {{ openstack_initial_setup.instance.name }}
+  changed_when: false
+  failed_when: false
+  register: ret_chk
+
+- name: CreateInstance(create)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && openstack server create --flavor {{ openstack_initial_setup.instance.flavor }} --image {{ openstack_initial_setup.image.name }} --nic net-id=`neutron net-list | grep selfservice | awk '{ print $2 }'` --security-group default --key-name {{ openstack_initial_setup.keypair.name }} {{ openstack_initial_setup.instance.name }}
+  when: ret_chk.rc != 0
+

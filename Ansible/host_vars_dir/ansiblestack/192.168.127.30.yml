@@ -5,7 +5,7 @@ mgmt_ip: 192.168.127.30
 region: RegionOne
 domain: default
 script_dir: /root/openrc_scripts
-provider_ifname: ens160
+provider_ifname: ens34
 
 openstack_network:
   hosts_entries:
@@ -86,4 +86,24 @@ openstack_horizon:
   default_domain: "{{ domain }}"
   default_role: user
   timezone: Asia/Tokyo
+
+openstack_initial_setup:
+  script_dir: /root/openrc_scripts
+  image:
+    file: /root/CentOS-7-x86_64-GenericCloud-1503.qcow2
+    name: centos7
+  provider_network:
+    network_addr: 192.168.127.0/24
+    start_ip: 192.168.127.50
+    end_ip: 192.168.127.69
+    gateway: 192.168.127.3
+  selfservice_network:
+    network_addr: 192.168.1.0/24
+    gateway: 192.168.1.1
+  keypair:
+    name: mykey
+    pubkey: /root/.ssh/id_rsa.pub
+  instance:
+    name: testcent7
+    flavor: m1.small
 

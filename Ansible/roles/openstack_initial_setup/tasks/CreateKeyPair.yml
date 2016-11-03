@@ -1,0 +1,11 @@
+---
+- name: CreateKeyPair(check)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && openstack keypair list | grep {{ openstack_initial_setup.keypair.name }}
+  changed_when: false
+  failed_when: false
+  register: ret_chk
+
+- name: CreateKeyPair(create)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && openstack keypair create --public-key {{ openstack_initial_setup.keypair.pubkey }} {{ openstack_initial_setup.keypair.name }} 
+  when: ret_chk.rc != 0
+

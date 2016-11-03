@@ -1,0 +1,18 @@
+---
+- name: UploadImage(check01)
+  stat:
+    path: "{{ openstack_initial_setup.image.file }}"
+  register: ret_chk01
+
+- name: UploadImage(check02)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && openstack image list | grep {{ openstack_initial_setup.image.name }}
+  changed_when: false
+  failed_when: false
+  register: ret_chk02 
+
+- name: UploadImage(exec)
+  shell: source {{ openstack_initial_setup.script_dir }}/admin-openrc && openstack image create "{{ openstack_initial_setup.image.name }}" --file {{ openstack_initial_setup.image.file }} --disk-format qcow2 --container-format bare --public
+  when:
+    - ret_chk01.stat.exists
+    - ret_chk02.rc != 0
+

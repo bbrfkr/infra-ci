@@ -79,7 +79,7 @@
 - name: Setting_Config(ml2_conf.ini ml2)
   blockinfile:
     dest: /etc/neutron/plugins/ml2/ml2_conf.ini
-    insertafter: "^\\[ml2"
+    insertafter: "^\\[ml2\\]$"
     marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller ml2)"
     block: |
       type_drivers = flat,vlan,vxlan
@@ -87,6 +87,7 @@
       mechanism_drivers = linuxbridge,l2population
       extension_drivers = port_security
     state: present
+
 
 - name: Setting_Config(ml2_conf.ini ml2_type_flat)
   blockinfile:
@@ -179,7 +180,7 @@
 - name: Setting_Config(nova.conf neutron)
   blockinfile:
     dest: /etc/nova/nova.conf
-    insertafter: "^\\["
+    insertafter: "^\\[neutron"
     marker: "# {mark} ANSIBLE MANAGED BLOCK (openstack_neutron_controller neutron)"
     block: |
       url = http://{{ openstack_neutron_controller.controller }}:9696

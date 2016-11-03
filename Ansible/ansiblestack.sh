@@ -14,5 +14,6 @@ ansible-art apply openstack_nova_compute inventories/openstack_nova_compute -p h
 ansible-art apply openstack_neutron_controller inventories/openstack_neutron_controller -p host_vars_dir/ansiblestack
 ansible-art apply openstack_neutron_compute inventories/openstack_neutron_compute -p host_vars_dir/ansiblestack
 ansible-art apply openstack_horizon inventories/openstack_horizon -p host_vars_dir/ansiblestack
+ansible-art apply openstack_initial_setup inventories/openstack_initial_setup -p host_vars_dir/ansiblestack
 date
 

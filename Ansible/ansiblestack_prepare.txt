@@ -1,0 +1,103 @@
+<<パッケージ準備作業>>
+[controller作業]
+1. createrepo, yum-utils, centos-release-openstack-mitakaのインストール
+# yum install -y yum-utils createrepo centos-release-openstack-mitaka
+
+2. 依存パッケージダウンロード先作成
+# mkdir /root/ansiblestack_controller
+
+3. 依存パッケージダウンロード
+# cd /root/ansiblestack_controller ; yumdownloader --resolve chrony expect \
+python-openstackclient \
+openstack-selinux \
+mariadb mariadb-server python2-PyMySQL \
+rabbitmq-server \
+memcached python-memcached \
+openstack-keystone httpd mod_wsgi \
+openstack-glance \
+openstack-nova-api openstack-nova-conductor openstack-nova-console openstack-nova-novncproxy openstack-nova-scheduler \
+openstack-neutron openstack-neutron-ml2 openstack-neutron-linuxbridge ebtables \
+openstack-dashboard 
+
+4. ローカルリポジトリ作成
+# createrepo .
+ 
+5. 既存リポジトリ退避
+# mkdir /etc/yum.repos.d/save
+# mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/save
+
+6. repoファイル作成
+# cat <<EOF > /etc/yum.repos.d/ansiblestack_controller.repo
+[ansiblestack_controller]
+gpgcheck=0
+name=ansiblestack_controller
+baseurl=file:///root/ansiblestack_controller
+EOF
+
+7. yumテスト
+# yum install openstack-keystone
+ 
+[compute作業]
+1. createrepo, yum-utils, centos-release-openstack-mitakaのインストール
+# yum install -y yum-utils createrepo centos-release-openstack-mitaka
+
+2. 依存パッケージダウンロード先作成
+# mkdir /root/ansiblestack_compute
+
+3. 依存パッケージダウンロード
+# cd /root/ansiblestack_compute ; yumdownloader --resolve chrony \
+python-openstackclient \
+openstack-selinux \
+openstack-nova-compute \
+openstack-neutron-linuxbridge ebtables ipset
+
+4. ローカルリポジトリ作成
+# createrepo .
+ 
+5. 既存リポジトリ退避
+# mkdir /etc/yum.repos.d/save
+# mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/save
+
+6. repoファイル作成
+# cat <<EOF > /etc/yum.repos.d/ansiblestack_compute.repo
+[ansiblestack_controller]
+gpgcheck=0
+name=ansiblestack_compute
+baseurl=file:///root/ansiblestack_compute
+EOF
+
+7. yumテスト
+# yum install openstack-nova-compute
+
+<<セミナー用OpenStack環境準備ロール>>
+
+[前提]
+1. controllerに、centosのインスタンスイメージを以下の名前で配備済み。
+    /root/CentOS-7-x86_64-GenericCloud-1503.qcow2
+2. controllerに、ssh鍵は以下の名前で作成済み。
+    /root/.ssh/id_rsa.pub
+
+[タスク]
+1. イメージのアップロード
+2. プロバイダネットワークの作成(192.168.127.0/25。192.168.127.50-192.168.127.69をFipとして確保)
+3. セルフサービスネットワークの作成(192.168.0.0/24。)
+4. セキュリティグループの作成(SSH許可)
+5. キーペア作成(秘密鍵を/rootに保存。)
+6. インスタンスの作成
+
+<<floating IPの追加(手作業)>>
+0. controllerにログイン
+# ssh root@192.168.127.30
+
+1. RCスクリプト読み込み
+# source openrc_scripts/admin-openrc
+
+2. floating IP作成
+# openstack ip floating create provider
+
+3. floating IP割り当て
+# openstack ip floating add <floating IP> testcent7
+
+4. testcent7インスタンスにログイン
+# ssh -i ~/.ssh/id_rsa centos@<floating IP>
+
